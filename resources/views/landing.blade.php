@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'NeuroAcademy – Belajar Neuroscience & EEG')
+@section('title', 'SynapEd – Belajar Neuroscience & EEG')
 
 @section('content')
 
