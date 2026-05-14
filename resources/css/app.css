@@ -18,21 +18,34 @@
     /* light teal            */
     --bg-s2: #CCDFE0;
     /* medium teal           */
-    --bg-s3: #B8D1D2;
+    --bg-s3: #b8bcd2;
     /* stronger teal         */
-    --text-h: #005461;
+    --text-h: #002f61;
     /* dark teal heading     */
-    --text-b: #1A4A52;
+    --text-b: #1a2752;
     /* dark teal body        */
-    --text-m: #4A7A82;
+    --text-m: #4a5782;
     /* muted teal            */
-    --border-t: rgba(12, 119, 121, 0.15);
+    --border-t: rgba(12, 54, 121, 0.15);
     --card-bg: rgba(255, 255, 255, 0.88);
     /* LMS (dark sidebar) */
     --lms-bg: #EFF7F7;
-    --lms-sidebar: #005461;
-    --lms-topbar: rgba(239, 247, 247, 0.97);
+    --lms-sidebar: rgb(2, 71, 173);
+    --lms-topbar: rgba(255, 255, 255, 0.97);
     --sidebar-w: 280px;
+}
+
+/* Brand (hero) blues — used for primary CTAs and headings on course/dashboard */
+:root {
+    --brand-900: #0b3d91;
+    --brand-800: #1e40af;
+    --brand-600: #2563EB;
+    --brand-600: #86acff;
+}
+
+/* Make primary heading color align with hero palette */
+:root {
+    --text-h: var(--brand-800);
 }
 
 /* ── Base ────────────────────────────────────────────────── */
@@ -309,7 +322,7 @@ section#cta .glass-card {
 
 /* ── Gradient Button ─────────────────────────────────────── */
 .btn-gradient {
-    background: linear-gradient(135deg, #0C7779 0%, #005461 100%);
+    background: linear-gradient(135deg, var(--brand-900) 0%, var(--brand-800) 60%, var(--brand-600) 100%);
     transition: opacity 0.2s, transform 0.2s;
 }
 
@@ -344,11 +357,11 @@ section#cta .glass-card {
 
 /* ── Glow Effects ────────────────────────────────────────── */
 .glow-blue {
-    box-shadow: 0 0 20px rgba(12, 119, 121, 0.35), 0 4px 16px rgba(12, 119, 121, 0.2);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.28), 0 4px 24px rgba(30, 64, 175, 0.18);
 }
 
 .glow-blue:hover {
-    box-shadow: 0 0 28px rgba(12, 119, 121, 0.5), 0 6px 24px rgba(12, 119, 121, 0.3);
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.4), 0 8px 28px rgba(30, 64, 175, 0.25);
 }
 
 .glow-violet {
@@ -423,7 +436,7 @@ section#cta .glass-card {
 .lms-body {
     display: flex;
     min-height: 100vh;
-    background: var(--lms-bg);
+    background: rgb(230, 240, 247);
     color: var(--text-b);
     font-family: var(--font-body);
 }
@@ -505,19 +518,19 @@ section#cta .glass-card {
 }
 
 .lms-nav-link:hover {
-    background: rgba(94, 206, 208, 0.15);
+    background: rgba(0, 13, 42, 0.164);
     color: #fff;
 }
 
 .lms-nav-link-active {
-    background: rgba(12, 119, 121, 0.4);
-    color: #5ECED0;
+    background: rgba(0, 8, 35, 0.5);
+    color: #ffffff;
     border: 1px solid rgba(12, 119, 121, 0.5);
 }
 
 .lms-nav-link-active:hover {
-    background: rgba(12, 119, 121, 0.5);
-    color: #5ECED0;
+    background: rgba(0, 8, 35, 0.5);
+    color: #ffffff;
 }
 
 .lms-sidebar-overlay {

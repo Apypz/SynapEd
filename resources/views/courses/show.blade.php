@@ -7,15 +7,42 @@
 @endphp
 
 <div style="background:var(--bg-page)">
+@section('body-class', 'page-light-nav')
+@push('head')
+<style>
+    /* Force navbar appearance for this page before JS runs */
+    body.page-light-nav #navbar {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+    }
+
+    body.page-light-nav #logo-white { display: none !important; }
+    body.page-light-nav #logo-dark  { display: block !important; }
+
+    body.page-light-nav .public-nav-link { color: #0b0b0b !important; }
+    body.page-light-nav .nav-cta-dynamic { color: #0b0b0b !important; }
+
+    /* Make primary CTA prominent blue on this page */
+    body.page-light-nav .nav-cta-dynamic:not(.glass-card) {
+        background: linear-gradient(135deg, var(--brand-900), var(--brand-800)) !important;
+        color: #ffffff !important;
+        padding: 8px 14px !important;
+        border-radius: 10px !important;
+    }
+
+    body.page-light-nav .nav-mobile-btn { color: #0b0b0b !important; border-color: rgba(0,0,0,0.08) !important; }
+</style>
+@endpush
     <section class="relative overflow-hidden py-14 lg:py-20">
         <div class="absolute inset-0 grid-bg opacity-20 pointer-events-none"></div>
-        <div class="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-teal-500/10 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-x-0 top-0 h-52 bg-gradient-to-b from-blue-500/10 to-transparent pointer-events-none"></div>
 
         <div class="max-w-6xl mx-auto px-6 relative z-10">
             <nav class="flex flex-wrap items-center gap-2 text-sm text-slate-500 mb-6">
-                <a href="{{ route('home') }}" class="hover:text-teal-400 transition-colors">Beranda</a>
+                <a href="{{ route('home') }}" class="hover:text-blue-400 transition-colors">Beranda</a>
                 <span>/</span>
-                <a href="{{ route('courses.index') }}" class="hover:text-teal-400 transition-colors">Kursus</a>
+                <a href="{{ route('courses.index') }}" class="hover:text-blue-400 transition-colors">Kursus</a>
                 <span>/</span>
                 <span class="text-slate-300">{{ $course['title'] }}</span>
             </nav>
@@ -24,10 +51,10 @@
                 <div class="space-y-8">
                     <div class="glass-card rounded-3xl p-7 lg:p-9 border border-white/10">
                         <div class="flex flex-wrap items-center gap-2 mb-5">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:{{ $levelBadge['bg'] }};color:{{ $levelBadge['text'] }};border:1px solid {{ $levelBadge['border'] }};">{{ $course['level'] }}</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold" style="background:rgb(211, 221, 255);color:blue;border:1px solid {{ $levelBadge['border'] }};">{{ $course['level'] }}</span>
                             <span class="px-3 py-1 rounded-full text-xs font-semibold bg-white/60 text-slate-600 border border-white/20">{{ $course['stats']['lesson_count'] }} pelajaran</span>
                             @if($course['has_free_preview'])
-                                <span class="px-3 py-1 rounded-full text-xs font-semibold text-teal-700 bg-teal-500/15 border border-teal-500/25">Preview gratis</span>
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold text-blue-700 bg-blue-500/15 border border-teal-500/25">Preview gratis</span>
                             @endif
                         </div>
 
@@ -101,16 +128,16 @@
                                         @foreach($section['lessons'] as $lesson)
                                             <div class="flex items-center gap-4 px-5 sm:px-6 py-4">
                                                 <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(12,119,121,0.10);">
-                                                    <svg class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconPaths[$lesson['type_icon']] }}"/></svg>
+                                                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconPaths[$lesson['type_icon']] }}"/></svg>
                                                 </div>
 
                                                 <div class="min-w-0 flex-1">
                                                     <div class="flex flex-wrap items-center gap-2">
                                                         <p class="font-semibold truncate" style="color:var(--text-h);">{{ $lesson['title'] }}</p>
                                                         @if($lesson['completed'])
-                                                            <span class="px-2 py-0.5 rounded-full text-xs font-semibold text-emerald-700 bg-emerald-500/15 border border-emerald-500/20">Selesai</span>
+                                                            <span class="px-2 py-0.5 rounded-full text-xs font-semibold text-blue-700 bg-blue-500/15 border border-emerald-500/20">Selesai</span>
                                                         @elseif($lesson['is_preview'])
-                                                            <span class="px-2 py-0.5 rounded-full text-xs font-semibold text-teal-700 bg-teal-500/15 border border-teal-500/20">Preview</span>
+                                                            <span class="px-2 py-0.5 rounded-full text-xs font-semibold text-blue-700 bg-blue-500/15 border border-teal-500/20">Preview</span>
                                                         @else
                                                             <span class="px-2 py-0.5 rounded-full text-xs font-semibold text-slate-500 bg-white/60 border border-white/20">Terkunci</span>
                                                         @endif
@@ -212,7 +239,7 @@
                         <div class="p-5 space-y-5">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Harga</p>
-                                <p class="text-3xl font-black" style="color:var(--text-h);">{{ $course['price_label'] }}</p>
+                                <p class="text-3xl font-black" style="color:blue">{{ $course['price_label'] }}</p>
                             </div>
 
                             <a href="{{ $course['cta']['href'] }}" class="btn-gradient block w-full px-5 py-3.5 rounded-2xl text-white font-semibold text-center">
@@ -222,11 +249,11 @@
                             <div class="space-y-3">
                                 @foreach($course['included_items'] as $item)
                                     <div class="flex items-start gap-3 rounded-2xl px-4 py-3 bg-white/65 border border-white/20">
-                                        <div class="w-8 h-8 rounded-full bg-teal-500/15 flex items-center justify-center flex-shrink-0 text-teal-700">
+                                        <div class="w-8 h-8 rounded-full bg-blue-500/15 flex items-center justify-center flex-shrink-0 text-blue-700">
                                             <svg class="w-4 h-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l3 3 7-7"/></svg>
                                         </div>
                                         <div>
-                                            <p class="text-sm font-semibold" style="color:var(--text-h);">{{ $item['label'] }}</p>
+                                            <p class="text-sm font-semibold" style="color:rgb(31, 31, 165)">{{ $item['label'] }}</p>
                                             <p class="text-xs text-slate-500 mt-0.5">{{ $item['detail'] }}</p>
                                         </div>
                                     </div>

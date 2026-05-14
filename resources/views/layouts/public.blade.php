@@ -18,7 +18,7 @@
 
     @stack('head')
 </head>
-<body class="antialiased font-sans na-public-body">
+<body class="antialiased font-sans na-public-body @yield('body-class')">
 
     @include('components.sections.navbar')
 
