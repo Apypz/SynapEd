@@ -61,47 +61,66 @@
         const logoWhite = document.getElementById('logo-white');
         const logoDark = document.getElementById('logo-dark');
 
-        if (window.scrollY > 20) {
-            // State: Glassmorphism Blur Aktif (Background Putih Transparan)
-            navbar.style.background = 'rgba(255, 255, 255, 0.1)';
+        // KONDISI 1: Scroll sudah sangat jauh (Misal: Setelah bagian Stats)
+        // Kita buat transparan kembali dengan teks putih
+        if (window.scrollY > 850) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.1)'; // Background Putih
             navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
             navbar.style.webkitBackdropFilter = 'blur(10px) saturate(180%)';
-            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.05)';
-            navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.03)';
+            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
 
-            // Switch Logo ke Gelap
             if (logoWhite) logoWhite.classList.replace('block', 'hidden');
             if (logoDark) logoDark.classList.replace('hidden', 'block');
 
-            // Ubah Warna Teks & Border Button menjadi Hitam
-            links.forEach(l => {
-                l.style.setProperty('color', '#000000', 'important');
-            });
+            links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
             ctas.forEach(c => {
                 c.style.setProperty('color', '#000000', 'important');
-                c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.3)', 'important');
+                c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.2)', 'important');
+            });
+            if (mobBtn) {
+                mobBtn.style.setProperty('color', '#ffffff', 'important');
+                mobBtn.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
+            }
+        }
+
+        // KONDISI 2: Baru mulai scroll (Antara 20px sampai 850px)
+        // Navbar jadi PUTIH SOLID/GLASS, Logo jadi HITAM (logotext.png)
+        else if (window.scrollY > 20) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)'; // Background Putih
+            navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.webkitBackdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+
+            // Switch ke Logo Dark (logotext.png)
+            if (logoWhite) logoWhite.classList.replace('block', 'hidden');
+            if (logoDark) logoDark.classList.replace('hidden', 'block');
+
+            // Teks menjadi Hitam
+            links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
+            ctas.forEach(c => {
+                c.style.setProperty('color', '#000000', 'important');
+                c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.2)', 'important');
             });
             if (mobBtn) {
                 mobBtn.style.setProperty('color', '#000000', 'important');
                 mobBtn.style.setProperty('border-color', 'rgba(0, 0, 0, 0.1)', 'important');
             }
+        }
 
-        } else {
-            // State: Transparan Sempurna (Top of Page)
+        // KONDISI 3: Kembali ke posisi paling atas (Scroll < 20)
+        else {
             navbar.style.background = 'transparent';
             navbar.style.backdropFilter = 'none';
             navbar.style.webkitBackdropFilter = 'none';
             navbar.style.borderBottom = 'none';
             navbar.style.boxShadow = 'none';
 
-            // Switch Logo ke Putih
             if (logoWhite) logoWhite.classList.replace('hidden', 'block');
             if (logoDark) logoDark.classList.replace('block', 'hidden');
 
-            // Kembalikan Warna Teks & Border ke Putih
-            links.forEach(l => {
-                l.style.setProperty('color', '#ffffff', 'important');
-            });
+            links.forEach(l => { l.style.setProperty('color', '#ffffff', 'important'); });
             ctas.forEach(c => {
                 c.style.setProperty('color', '#ffffff', 'important');
                 c.style.setProperty('border-color', 'rgba(255, 255, 255, 0.3)', 'important');
