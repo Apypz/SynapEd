@@ -122,14 +122,28 @@
                     </div>
 
                     <!-- CTA -->
-                    <a href="#"
-                       class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
-                       style="background: {{ $gradient }};">
-                        Pelajari
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                    <div class="flex flex-col gap-3">
+                        <a href="{{ route('courses.show', $course['slug']) }}"
+                           class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90"
+                           style="background: {{ $gradient }};">
+                            Lihat Detail
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+
+                        @auth
+                            <a href="{{ route('learn', $course['slug']) }}"
+                               class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 btn-gradient">
+                                {{ !empty($course['is_enrolled']) ? 'Mulai Belajar' : 'Beli Sekarang' }}
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}"
+                               class="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 btn-gradient">
+                                {{ !empty($course['has_free_preview']) ? 'Preview Gratis' : 'Beli Sekarang' }}
+                            </a>
+                        @endauth
+                    </div>
                 </div>
             </div>
             @endforeach

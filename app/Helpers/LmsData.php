@@ -10,7 +10,7 @@ class LmsData
 
     public static function courses(): array
     {
-        return [
+        $courses = [
             [
                 'id'               => 1,
                 'slug'             => 'dasar-neuroscience',
@@ -327,6 +327,12 @@ class LmsData
                 ],
             ],
         ];
+
+        return array_map(
+            fn (array $course, int $index) => self::decorateCourse($course, $index + 1),
+            $courses,
+            array_keys($courses)
+        );
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -365,6 +371,226 @@ class LmsData
             }
         }
         return $flat;
+    }
+
+    public static function decorateCourse(array $course, int $position = 1): array
+    {
+        $config = [
+            'dasar-neuroscience' => [
+                'price' => 500000,
+                'last_updated' => '12 Mei 2026',
+                'enrolled_students' => 1840,
+                'is_enrolled' => true,
+                'completed_lessons' => ['apa-itu-neuroscience', 'sejarah-neuroscience'],
+                'cohort' => [
+                    'name' => 'Batch Neuro Dasar',
+                    'starts_at' => '20 Mei 2026',
+                    'slots_remaining' => 14,
+                    'schedule' => 'Sabtu, 09.00-12.00 WIB',
+                    'format' => 'Kohor live mingguan + rekaman kelas',
+                ],
+                'instructor' => [
+                    'name' => 'Dr. Aulia Prameswari',
+                    'role' => 'Lead Neuroscience Instructor',
+                    'bio' => 'Menjelaskan konsep neuroscience dasar dengan pendekatan visual, ringkas, dan aplikatif.',
+                    'credentials' => [
+                        'Doktor Neurosains Kognitif',
+                        '12+ tahun mengajar topik neurobiologi dan sinapsis',
+                        'Membimbing riset pembelajaran berbasis otak',
+                    ],
+                    'other_courses' => [
+                        ['slug' => 'pengenalan-eeg', 'title' => 'Pengenalan EEG'],
+                        ['slug' => 'implementasi-eeg-muse', 'title' => 'Implementasi EEG dengan Muse'],
+                    ],
+                ],
+            ],
+            'pengenalan-eeg' => [
+                'price' => 450000,
+                'last_updated' => '08 Mei 2026',
+                'enrolled_students' => 1320,
+                'is_enrolled' => false,
+                'completed_lessons' => [],
+                'cohort' => [
+                    'name' => 'Kohor EEG Starter',
+                    'starts_at' => '24 Mei 2026',
+                    'slots_remaining' => 9,
+                    'schedule' => 'Minggu, 13.00-15.00 WIB',
+                    'format' => 'Kohor praktikum + diskusi Q&A',
+                ],
+                'instructor' => [
+                    'name' => 'Raka Adiputra',
+                    'role' => 'EEG Systems Instructor',
+                    'bio' => 'Fokus pada pengenalan perangkat, gelombang otak, dan setup observasi EEG yang mudah diikuti pemula.',
+                    'credentials' => [
+                        'Spesialis biosignal dan perangkat EEG',
+                        'Pengalaman mentoring instalasi perangkat neurotech',
+                        'Menyusun materi pengantar untuk pemula',
+                    ],
+                    'other_courses' => [
+                        ['slug' => 'dasar-neuroscience', 'title' => 'Dasar Neuroscience'],
+                        ['slug' => 'analisis-data-eeg', 'title' => 'Analisis Data EEG'],
+                    ],
+                ],
+            ],
+            'implementasi-eeg-muse' => [
+                'price' => 650000,
+                'last_updated' => '10 Mei 2026',
+                'enrolled_students' => 860,
+                'is_enrolled' => false,
+                'completed_lessons' => [],
+                'cohort' => [
+                    'name' => 'Muse Practicum Cohort',
+                    'starts_at' => '27 Mei 2026',
+                    'slots_remaining' => 6,
+                    'schedule' => 'Rabu, 19.00-21.00 WIB',
+                    'format' => 'Hands-on clinic + sesi troubleshooting perangkat',
+                ],
+                'instructor' => [
+                    'name' => 'Nadia Putri Wicaksana',
+                    'role' => 'Brain-Computer Interface Mentor',
+                    'bio' => 'Mendampingi setup perangkat, perekaman data, dan eksperimen neurofeedback berbasis Muse.',
+                    'credentials' => [
+                        'R&D engineer untuk sistem EEG consumer',
+                        'Berpengalaman di integrasi perangkat Bluetooth sensorik',
+                        'Pembina praktik visualisasi sinyal real-time',
+                    ],
+                    'other_courses' => [
+                        ['slug' => 'pengenalan-eeg', 'title' => 'Pengenalan EEG'],
+                        ['slug' => 'analisis-data-eeg', 'title' => 'Analisis Data EEG'],
+                    ],
+                ],
+            ],
+            'analisis-data-eeg' => [
+                'price' => 800000,
+                'last_updated' => '14 Mei 2026',
+                'enrolled_students' => 540,
+                'is_enrolled' => false,
+                'completed_lessons' => [],
+                'cohort' => [
+                    'name' => 'Cohort Analisis Lanjut',
+                    'starts_at' => '31 Mei 2026',
+                    'slots_remaining' => 4,
+                    'schedule' => 'Sabtu, 10.00-13.00 WIB',
+                    'format' => 'Workshop intensif + review proyek akhir',
+                ],
+                'instructor' => [
+                    'name' => 'Dimas Ardianto',
+                    'role' => 'Data Analysis Mentor',
+                    'bio' => 'Memandu preprocessing, artifact removal, dan interpretasi hasil analisis EEG menggunakan Python.',
+                    'credentials' => [
+                        'Spesialis computational neuroscience',
+                        'Aktif membimbing proyek analisis biosignal',
+                        'Berpengalaman membangun pipeline MNE-Python',
+                    ],
+                    'other_courses' => [
+                        ['slug' => 'dasar-neuroscience', 'title' => 'Dasar Neuroscience'],
+                        ['slug' => 'implementasi-eeg-muse', 'title' => 'Implementasi EEG dengan Muse'],
+                    ],
+                ],
+            ],
+        ];
+
+        $courseConfig = $config[$course['slug']] ?? $config['dasar-neuroscience'];
+        $course['display_position'] = $position;
+        $course['price'] = $courseConfig['price'];
+        $course['price_label'] = 'Rp' . number_format($courseConfig['price'], 0, ',', '.');
+        $course['last_updated'] = $courseConfig['last_updated'];
+        $course['enrolled_students'] = $courseConfig['enrolled_students'];
+        $course['is_enrolled'] = $courseConfig['is_enrolled'];
+        $course['completed_lessons'] = $courseConfig['completed_lessons'];
+        $course['cohort'] = $courseConfig['cohort'];
+        $course['instructor_profile'] = $courseConfig['instructor'];
+
+        if ($course['slug'] === 'analisis-data-eeg') {
+            foreach ($course['sections'] as &$section) {
+                foreach ($section['lessons'] as &$lesson) {
+                    $lesson['free'] = false;
+                }
+            }
+            unset($section, $lesson);
+        }
+
+        $flatLessons = self::flatLessons($course);
+        $course['has_free_preview'] = collect($flatLessons)->contains(fn ($lesson) => ! empty($lesson['free']));
+        $course['free_lessons_count'] = collect($flatLessons)->where('free', true)->count();
+        $course['lesson_count'] = count($flatLessons);
+        $course['video_minutes'] = collect($flatLessons)
+            ->where('type', 'video')
+            ->sum(fn ($lesson) => self::durationToMinutes($lesson['duration']));
+        $course['article_count'] = collect($flatLessons)->where('type', 'reading')->count();
+        $course['quiz_count'] = collect($flatLessons)->where('type', 'quiz')->count();
+        $course['video_hours_label'] = self::formatMinutes($course['video_minutes']);
+        $course['included_items'] = [
+            ['label' => $course['video_hours_label'] . ' video', 'detail' => 'Akses materi video penuh'],
+            ['label' => $course['article_count'] . ' artikel', 'detail' => 'Ringkasan bacaan & referensi'],
+            ['label' => 'Sertifikat penyelesaian', 'detail' => 'Untuk peserta yang menyelesaikan kursus'],
+        ];
+        $course['lesson_completion_map'] = array_fill_keys($course['completed_lessons'], true);
+
+        $decoratedSections = [];
+        foreach ($course['sections'] as $sectionIndex => $section) {
+            $decoratedLessons = [];
+            foreach ($section['lessons'] as $lessonIndex => $lesson) {
+                $lesson['type_label'] = [
+                    'video' => 'Video',
+                    'reading' => 'Artikel',
+                    'quiz' => 'Kuis',
+                ][$lesson['type']] ?? ucfirst($lesson['type']);
+                $lesson['type_icon'] = [
+                    'video' => 'video',
+                    'reading' => 'reading',
+                    'quiz' => 'quiz',
+                ][$lesson['type']] ?? 'reading';
+                $lesson['locked'] = ! $lesson['free'];
+                $lesson['is_preview'] = ! $lesson['locked'];
+                $lesson['completed'] = ! empty($course['lesson_completion_map'][$lesson['slug']]);
+                $lesson['section_index'] = $sectionIndex + 1;
+                $lesson['order'] = $lessonIndex + 1;
+                $decoratedLessons[] = $lesson;
+            }
+
+            $section['lessons'] = $decoratedLessons;
+            $section['lesson_count'] = count($decoratedLessons);
+            $section['section_minutes'] = array_reduce(
+                $decoratedLessons,
+                fn (int $carry, array $lesson) => $carry + self::durationToMinutes($lesson['duration']),
+                0
+            );
+            $section['section_duration_label'] = self::formatMinutes($section['section_minutes']);
+            $decoratedSections[] = $section;
+        }
+
+        $course['sections'] = $decoratedSections;
+        $course['course_outline'] = collect($flatLessons)->map(fn ($lesson) => $lesson['title'])->all();
+
+        return $course;
+    }
+
+    public static function durationToMinutes(string $duration): int
+    {
+        $duration = trim(mb_strtolower($duration));
+
+        if (preg_match('/(\d+)\s*jam/', $duration, $matches)) {
+            return (int) $matches[1] * 60;
+        }
+
+        if (preg_match('/(\d+)\s*menit/', $duration, $matches)) {
+            return (int) $matches[1];
+        }
+
+        return 0;
+    }
+
+    public static function formatMinutes(int $minutes): string
+    {
+        if ($minutes >= 60) {
+            $hours = intdiv($minutes, 60);
+            $remaining = $minutes % 60;
+
+            return $remaining > 0 ? $hours . ' Jam ' . $remaining . ' Menit' : $hours . ' Jam';
+        }
+
+        return $minutes . ' Menit';
     }
 
     public static function levelColorMap(): array
