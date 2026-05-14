@@ -11,21 +11,9 @@
 :root {
     --font-heading: 'Poppins', sans-serif;
     --font-body: 'Inter', sans-serif;
-    /* Teal palette — #0C7779 / #005461 */
-    --bg-page: #EFF7F7;
-    /* very light teal bg    */
-    --bg-s1: #E0F0F0;
-    /* light teal            */
-    --bg-s2: #CCDFE0;
-    /* medium teal           */
-    --bg-s3: #B8D1D2;
-    /* stronger teal         */
-    --text-h: #005461;
-    /* dark teal heading     */
+    /* --text-h: #005461;
     --text-b: #1A4A52;
-    /* dark teal body        */
-    --text-m: #4A7A82;
-    /* muted teal            */
+    --text-m: #4A7A82; */
     --border-t: rgba(12, 119, 121, 0.15);
     --card-bg: rgba(255, 255, 255, 0.88);
     /* LMS (dark sidebar) */
@@ -57,35 +45,35 @@ html {
 
 /* ── Landing section backgrounds ────────────────────────── */
 section#stats {
-    background: var(--bg-s3) !important;
+    background: whitesmoke !important;
 }
 
 section#about {
-    background: var(--bg-page) !important;
+    background: whitesmoke !important;
 }
 
 section#value {
-    background: var(--bg-s1) !important;
+    background: whitesmoke !important;
 }
 
 section#courses {
-    background: var(--bg-s2) !important;
+    background: whitesmoke !important;
 }
 
 section#testimonials {
-    background: var(--bg-s1) !important;
+    background: whitesmoke !important;
 }
 
 section#features {
-    background: var(--bg-page) !important;
+    background: whitesmoke !important;
 }
 
 section#learning-path {
-    background: var(--bg-s2) !important;
+    background: whitesmoke !important;
 }
 
 section#faq {
-    background: var(--bg-s3) !important;
+    background: whitesmoke !important;
 }
 
 section#cta {
@@ -381,9 +369,9 @@ section#cta .glass-card {
 
 /* ── Active Filter (Course page) ─────────────────────────── */
 .active-filter {
-    background: linear-gradient(135deg, #0C7779, #005461);
-    color: #fff;
-    border-color: transparent;
+    background: #0056D2;
+    color: #ffffff !important;
+    border-color: transparent !important;
 }
 
 /* ── Marquee (Partners section) ──────────────────────────── */
