@@ -378,6 +378,7 @@ class LmsData
         $config = [
             'dasar-neuroscience' => [
                 'price' => 500000,
+                'thumbnail' => 'images/course-thumbnails/dasar-neuroscience.svg',
                 'last_updated' => '12 Mei 2026',
                 'enrolled_students' => 1840,
                 'is_enrolled' => true,
@@ -406,6 +407,7 @@ class LmsData
             ],
             'pengenalan-eeg' => [
                 'price' => 450000,
+                'thumbnail' => 'images/course-thumbnails/pengenalan-eeg.svg',
                 'last_updated' => '08 Mei 2026',
                 'enrolled_students' => 1320,
                 'is_enrolled' => false,
@@ -434,6 +436,7 @@ class LmsData
             ],
             'implementasi-eeg-muse' => [
                 'price' => 650000,
+                'thumbnail' => 'images/course-thumbnails/implementasi-eeg-muse.svg',
                 'last_updated' => '10 Mei 2026',
                 'enrolled_students' => 860,
                 'is_enrolled' => false,
@@ -462,6 +465,7 @@ class LmsData
             ],
             'analisis-data-eeg' => [
                 'price' => 800000,
+                'thumbnail' => 'images/course-thumbnails/analisis-data-eeg.svg',
                 'last_updated' => '14 Mei 2026',
                 'enrolled_students' => 540,
                 'is_enrolled' => false,
@@ -494,6 +498,7 @@ class LmsData
         $course['display_position'] = $position;
         $course['price'] = $courseConfig['price'];
         $course['price_label'] = 'Rp' . number_format($courseConfig['price'], 0, ',', '.');
+        $course['thumbnail'] = $courseConfig['thumbnail'];
         $course['last_updated'] = $courseConfig['last_updated'];
         $course['enrolled_students'] = $courseConfig['enrolled_students'];
         $course['is_enrolled'] = $courseConfig['is_enrolled'];
