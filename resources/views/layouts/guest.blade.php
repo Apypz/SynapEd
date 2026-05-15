@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'NeuroAcademy') }}</title>
+    <title>{{ config('app.name', 'SynapEd') }}</title>
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+    <link rel="icon" type="images/logo.png" href="images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -26,21 +26,23 @@
         <div class="relative z-10 w-full max-w-md">
             {{-- Logo --}}
             <div class="text-center mb-8">
-                <a href="{{ route('home') }}" class="inline-flex items-center group">
-                    <img src="{{ asset('images/logotext.png') }}" alt="NeuroAcademy" class="h-12 w-auto group-hover:scale-105 transition-transform duration-200">
-                </a>
-                <p class="text-[#4A7A82] text-sm mt-2">Platform Pembelajaran Neuroscience & EEG</p>
+                <div class="flex flex-col items-center">
+                    <a href="{{ route('home') }}" class="inline-flex items-center justify-center h-16 group">
+                        <img src="{{ asset('images/logotext.png') }}"
+                            alt="NeuroAcademy"
+                            class="h-12 w-auto transform scale-[1.8] origin-center transition-transform duration-300 group-hover:scale-[2.0]">
+                    </a>
+
+                    <p class="text-[#4A7A82] text-sm mt-6 font-medium">
+                        Platform Pembelajaran Neuroscience & EEG
+                    </p>
+                </div>
             </div>
 
             {{-- Card --}}
             <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 border border-[rgba(12,119,121,0.12)] shadow-md shadow-[rgba(12,119,121,0.06)]">
                 {{ $slot }}
             </div>
-
-            {{-- Back to home --}}
-            <p class="text-center text-[#4A7A82] text-sm mt-6">
-                <a href="{{ route('home') }}" class="hover:text-[#0C7779] transition-colors">← Kembali ke Beranda</a>
-            </p>
         </div>
     </div>
 </body>
