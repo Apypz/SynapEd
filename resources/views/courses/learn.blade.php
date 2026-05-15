@@ -179,7 +179,7 @@
         {{-- Progress bar area --}}
         @php
             $total  = count($flatLessons);
-            $curIdx = collect($flatLessons)->search(fn($l) => $l['slug'] === $lesson['slug']);
+            $curIdx = collect($flatLessons)->search(fn($l) => $l['slug'] === ($lesson['slug'] ?? null));
             $pct    = $total > 0 ? round(($curIdx / $total) * 100) : 0;
         @endphp
         <div class="hidden sm:flex items-center gap-3">
