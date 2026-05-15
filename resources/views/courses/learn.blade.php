@@ -15,7 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         html,body { height:100%; margin:0; }
-        .learn-wrap { display:flex; flex-direction:column; height:100vh; background:#EFF7F7; color:#1A4A52; }
+        .learn-wrap { display:flex; flex-direction:column; height:100vh; background:#EFF7F7; color:#1a2f52; }
 
         /* Top bar */
         .learn-topbar {
@@ -25,7 +25,7 @@
             align-items:center;
             justify-content:space-between;
             padding:0 16px;
-            border-bottom:1px solid rgba(12,119,121,0.12);
+            border-bottom:1px solid rgba(12, 52, 121, 0.12);
             background:rgba(239,247,247,0.97);
             backdrop-filter:blur(12px);
         }
@@ -39,12 +39,12 @@
             flex-shrink:0;
             overflow-y:auto;
             border-right:1px solid rgba(255,255,255,0.06);
-            background:#005461;
+            background:#003061;
             display:flex;
             flex-direction:column;
         }
         .learn-sidebar::-webkit-scrollbar { width:4px; }
-        .learn-sidebar::-webkit-scrollbar-thumb { background:rgba(94,206,208,0.4); border-radius:2px; }
+        .learn-sidebar::-webkit-scrollbar-thumb { background:rgba(94, 140, 208, 0.4); border-radius:2px; }
 
         .learn-section-hdr {
             display:flex;
@@ -68,8 +68,8 @@
             transition:background 0.15s;
             text-decoration:none;
         }
-        .learn-lesson-item:hover { background:rgba(94,206,208,0.08); }
-        .learn-lesson-item.active { background:rgba(12,119,121,0.4); border-left:2px solid #5ECED0; }
+        .learn-lesson-item:hover { background:rgba(94, 115, 208, 0.08); }
+        .learn-lesson-item.active { background:rgba(94, 115, 208, 0.08); border-left:2px solid #5e7ed0; }
 
         .learn-lesson-ico {
             width:22px;
@@ -79,7 +79,7 @@
             align-items:center;
             justify-content:center;
             flex-shrink:0;
-            background:rgba(94,206,208,0.15);
+            background:rgba(255,255,255,0.15);
         }
 
         /* Main content ------------------------------------------------- */
@@ -90,13 +90,13 @@
             background:#EFF7F7;
         }
         .learn-content::-webkit-scrollbar { width:5px; }
-        .learn-content::-webkit-scrollbar-thumb { background:rgba(12,119,121,0.2); border-radius:2px; }
+        .learn-content::-webkit-scrollbar-thumb { background:rgba(12, 59, 121, 0.2); border-radius:2px; }
 
         .video-placeholder {
             width:100%;
             aspect-ratio:16/9;
             max-height:65vh;
-            background:linear-gradient(135deg,#005461 0%,#0C7779 50%,#005461 100%);
+            background:linear-gradient(135deg,#003261 0%,#0c4179 50%,#002a61 100%);
             display:flex;
             align-items:center;
             justify-content:center;
@@ -123,8 +123,8 @@
         /* ── Text & element overrides for teal palette ─────── */
         .learn-topbar .text-white,
         .learn-topbar .text-slate-400,
-        .learn-topbar .text-slate-500    { color: #005461 !important; }
-        .learn-topbar a                  { color: #1A4A52; transition: color 0.15s; }
+        .learn-topbar .text-slate-500    { color: #002761 !important; }
+        .learn-topbar a                  { color: #1a3052; transition: color 0.15s; }
         .learn-topbar a:hover            { color: #005461; }
         .learn-topbar button             { color: #4A7A82; }
         .learn-topbar button:hover svg   { color: #005461; }
@@ -178,14 +178,15 @@
 
         {{-- Progress bar area --}}
         @php
-            $total  = count($flatLessons);
-            $curIdx = collect($flatLessons)->search(fn($l) => $l['slug'] === $lesson['slug']);
-            $pct    = $total > 0 ? round(($curIdx / $total) * 100) : 0;
+            $total = count($flatLessons);
+            $curSlug = isset($lesson) && isset($lesson['slug']) ? $lesson['slug'] : null;
+            $curIdx = $curSlug ? collect($flatLessons)->search(fn($l) => ($l['slug'] ?? null) === $curSlug) : 0;
+            $pct = $total > 0 ? round(($curIdx / $total) * 100) : 0;
         @endphp
         <div class="hidden sm:flex items-center gap-3">
-            <span class="text-slate-400 text-xs">{{ $curIdx + 1 }} / {{ $total }}</span>
-            <div class="w-24 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                <div class="h-full rounded-full" style="width:{{ $pct }}%;background:linear-gradient(90deg,#0C7779,#5ECED0);"></div>
+            <span class="text-blue-950 text-xs">{{ $curIdx + 1 }} / {{ $total }}</span>
+            <div class="w-24 h-1.5 rounded-full bg-blue/10 overflow-hidden">
+                <div class="h-full rounded-full" style="width:{{ $pct }}%;background:linear-gradient(90deg, #2563EB, #0b3d91);"></div>
             </div>
         </div>
 
@@ -228,8 +229,7 @@
                     <a href="{{ route('learn.lesson', [$course['slug'], $lsn['slug']]) }}"
                        class="learn-lesson-item {{ $isActive ? 'active' : '' }}">
                         <div class="learn-lesson-ico" style="background:rgba(255,255,255,0.07);">
-                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                                 style="color:{{ $tColor }};">
+                               <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconPaths[$lsn['type'] === 'video' ? 'video' : ($lsn['type'] === 'quiz' ? 'quiz' : 'reading')] }}"/>
                             </svg>
                         </div>
@@ -250,41 +250,41 @@
             <div class="video-placeholder">
                 <div class="relative z-10 flex flex-col items-center gap-4 text-white">
                     <button class="w-20 h-20 rounded-full flex items-center justify-center transition-transform hover:scale-110"
-                            style="background:rgba(12,119,121,0.8);box-shadow:0 0 40px rgba(12,119,121,0.5);">
+                            style="background:rgba(12, 30, 121, 0.8);box-shadow:0 0 40px rgba(12, 39, 121, 0.5);">
                         <svg class="w-10 h-10 ml-1" viewBox="0 0 24 24" fill="white">
                             <path d="M8 5v14l11-7z"/>
                         </svg>
                     </button>
                     <div class="text-center">
-                        <p class="font-bold text-lg">{{ $lesson['title'] }}</p>
-                        <p class="text-teal-200 text-sm">{{ $lesson['duration'] }}</p>
+                        <p class="font-bold text-blue-100 text-lg">{{ $lesson['title'] }}</p>
+                        <p class="text-blue-200 text-sm">{{ $lesson['duration'] }}</p>
                     </div>
                 </div>
             </div>
             @elseif($lesson['type'] === 'quiz')
-            <div class="video-placeholder" style="background:linear-gradient(135deg,#005461 0%,#0C7779 50%,#5ECED0 100%);">
+            <div class="video-placeholder" style="background:linear-gradient(135deg,#000b61 0%,#0c3479 50%,#5e8cd0 100%);">
                 <div class="relative z-10 flex flex-col items-center gap-4 text-white">
                     <div class="w-20 h-20 rounded-full flex items-center justify-center"
-                         style="background:rgba(12,119,121,0.8);box-shadow:0 0 40px rgba(12,119,121,0.5);">
+                         style="background:rgba(12, 68, 121, 0.8);box-shadow:0 0 40px rgba(12, 56, 121, 0.5);">
                         <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconPaths['quiz'] }}"/>
                         </svg>
                     </div>
-                    <p class="font-bold text-lg">{{ $lesson['title'] }}</p>
-                    <p class="text-teal-200 text-sm">Kuis · {{ $lesson['duration'] }}</p>
+                    <p class="text-blue-100 font-bold text-lg">{{ $lesson['title'] }}</p>
+                    <p class="text-blue-200 text-sm">Kuis · {{ $lesson['duration'] }}</p>
                 </div>
             </div>
             @else
-            <div class="video-placeholder" style="background:linear-gradient(135deg,#005461 0%,#0A3D47 50%,#0C7779 100%);">
+            <div class="video-placeholder" style="background:linear-gradient(135deg,#002f61 0%,#0a1d47 50%,#0c4a79 100%);">
                 <div class="relative z-10 flex flex-col items-center gap-4 text-white">
                     <div class="w-20 h-20 rounded-full flex items-center justify-center"
-                         style="background:rgba(0,84,97,0.8);box-shadow:0 0 40px rgba(0,84,97,0.5);">
+                         style="background:rgba(0, 36, 97, 0.8);box-shadow:0 0 40px rgba(0, 27, 97, 0.5);">
                         <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconPaths['reading'] }}"/>
                         </svg>
                     </div>
-                    <p class="font-bold text-lg">{{ $lesson['title'] }}</p>
-                    <p class="text-cyan-200 text-sm">Bacaan · {{ $lesson['duration'] }}</p>
+                    <p class="text-blue-100 font-bold text-lg">{{ $lesson['title'] }}</p>
+                    <p class="text-blue-200 text-sm">Bacaan · {{ $lesson['duration'] }}</p>
                 </div>
             </div>
             @endif
@@ -303,23 +303,23 @@
                     </span>
                 </div>
 
-                <h1 class="text-2xl font-black text-white mb-6 leading-tight" style="font-family:var(--font-heading);">
+                <h1 class="text-2xl font-black text-blue-500 mb-6 leading-tight" style="font-family:var(--font-heading);">
                     {{ $lesson['title'] }}
                 </h1>
 
                 {{-- Placeholder lesson body --}}
-                <div class="space-y-4 text-slate-700 leading-relaxed text-base">
-                    <p>Selamat datang di pelajaran <strong class="text-white">{{ $lesson['title'] }}</strong>, bagian dari modul <em>{{ $lesson['section_title'] }}</em>.</p>
+                <div class="space-y-4 text-blue-950 leading-relaxed text-base">
+                    <p>Selamat datang di pelajaran <strong class="text-blue">{{ $lesson['title'] }}</strong>, bagian dari modul <em>{{ $lesson['section_title'] }}</em>.</p>
                     <p>Dalam pelajaran ini, Anda akan mempelajari konsep-konsep kunci yang menjadi fondasi dari pemahaman yang lebih dalam tentang {{ $course['title'] }}. Materi dirancang agar dapat dipahami oleh siapa saja, baik yang memiliki latar belakang sains maupun tidak.</p>
                     <div class="glass-card rounded-2xl p-6 border border-white/08 my-6">
-                        <p class="text-teal-300 font-semibold mb-2 flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p class="text-blue-950 font-semibold mb-2 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="blue" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             Poin Pembelajaran Utama
                         </p>
                         <ul class="space-y-2 text-sm">
                             @foreach(array_slice($course['what_you_learn'], 0, 3) as $wyl)
                             <li class="flex items-start gap-2">
-                                <span class="text-teal-400 mt-0.5">•</span>
+                                <span class="text-blue-400 mt-0.5">•</span>
                                 <span>{{ $wyl }}</span>
                             </li>
                             @endforeach
@@ -332,11 +332,11 @@
                 <div class="flex items-center justify-between mt-12 pt-8 border-t border-white/08">
                     @if($prevLesson)
                     <a href="{{ route('learn.lesson', [$course['slug'], $prevLesson['slug']]) }}"
-                       class="flex items-center gap-3 glass-card rounded-xl px-4 py-3 border border-white/08 hover:border-teal-500/30 transition-all group max-w-xs">
-                        <svg class="w-5 h-5 text-slate-400 group-hover:text-teal-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                       class="flex items-center gap-3 glass-card rounded-xl px-4 py-3 border border-blue/08 hover:border-blue-500/30 transition-all group max-w-xs">
+                        <svg class="w-5 h-5 text-blue-400 group-hover:text-blue-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                         <div class="text-left min-w-0">
-                            <p class="text-slate-500 text-xs">Sebelumnya</p>
-                            <p class="text-white text-sm font-medium truncate">{{ $prevLesson['title'] }}</p>
+                            <p class="text-blue-500 text-xs">Sebelumnya</p>
+                            <p class="text-blue text-sm font-medium truncate">{{ $prevLesson['title'] }}</p>
                         </div>
                     </a>
                     @else<div></div>@endif
@@ -345,10 +345,10 @@
                     <a href="{{ route('learn.lesson', [$course['slug'], $nextLesson['slug']]) }}"
                        class="flex items-center gap-3 glass-card rounded-xl px-4 py-3 border border-white/08 hover:border-teal-500/30 transition-all group max-w-xs text-right">
                         <div class="min-w-0">
-                            <p class="text-slate-500 text-xs">Selanjutnya</p>
-                            <p class="text-white text-sm font-medium truncate">{{ $nextLesson['title'] }}</p>
+                            <p class="text-blue-500 text-xs">Selanjutnya</p>
+                            <p class="text-blue text-sm font-medium truncate">{{ $nextLesson['title'] }}</p>
                         </div>
-                        <svg class="w-5 h-5 text-slate-400 group-hover:text-teal-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        <svg class="w-5 h-5 text-blue-400 group-hover:text-blue-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                     </a>
                     @else
                     <a href="{{ route('dashboard') }}"

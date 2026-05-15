@@ -21,7 +21,7 @@
     {{-- Logo --}}
     <div class="lms-sidebar-logo">
         <a href="{{ route('home') }}" class="flex items-center">
-            <img src="{{ asset('images/logotext.png') }}" alt="NeuroAcademy" class="h-12 w-auto">
+            <img src="{{ asset('images/logotextwhite.png') }}" alt="NeuroAcademy" class="w-20">
         </a>
     </div>
 
