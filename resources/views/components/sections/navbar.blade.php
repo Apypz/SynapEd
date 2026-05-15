@@ -56,9 +56,9 @@
 
     function applyNavbarScroll() {
         const body = document.body;
-        const links = document.querySelectorAll('.nav-link-dynamic');
-        const ctas = document.querySelectorAll('.nav-cta-dynamic');
-        const mobBtn = document.querySelector('.nav-mobile-btn');
+        const links = navbar.querySelectorAll('.nav-link-dynamic');
+        const ctas = navbar.querySelectorAll('.nav-cta-dynamic');
+        const mobBtn = navbar.querySelector('.nav-mobile-btn');
         const logoWhite = document.getElementById('logo-white');
         const logoDark = document.getElementById('logo-dark');
 
@@ -75,9 +75,18 @@
             if (logoWhite) logoWhite.classList.replace('block', 'hidden');
             if (logoDark) logoDark.classList.replace('hidden', 'block');
             links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
+            // Navbar CTAs: make primary (glass-card) blue with white text,
+            // and secondary CTAs white with blue text — scoped to navbar only.
             ctas.forEach(c => {
-                c.style.setProperty('color', '#000000', 'important');
-                c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.2)', 'important');
+                if (c.classList && c.classList.contains('glass-card')) {
+                    c.style.setProperty('background', 'linear-gradient(135deg,#2563EB,#0b3d91)', 'important');
+                    c.style.setProperty('color', '#ffffff', 'important');
+                    c.style.setProperty('border-color', 'transparent', 'important');
+                } else {
+                    c.style.setProperty('background', '#ffffff', 'important');
+                    c.style.setProperty('color', '#0056D2', 'important');
+                    c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.05)', 'important');
+                }
             });
             if (mobBtn) {
                 mobBtn.style.setProperty('color', '#000000', 'important');

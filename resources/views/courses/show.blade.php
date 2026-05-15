@@ -6,7 +6,7 @@
     $levelBadge = $levelMap[$course['level_color']] ?? ['bg' => 'rgba(12,119,121,0.15)', 'text' => '#0C7779', 'border' => 'rgba(12,119,121,0.30)'];
 @endphp
 
-<div style="background:var(--bg-page)">
+<div style="background:var(--bg-page)" class="font-poppins">
 @section('body-class', 'page-light-nav')
 @push('head')
 <style>
@@ -223,15 +223,15 @@
                     </section>
                 </div>
 
-                <aside class="hidden lg:block lg:sticky lg:top-24">
+                <aside class="hidden lg:block lg:sticky">
                     <div class="rounded-3xl bg-white/75 border border-white/15 overflow-hidden shadow-lg">
                         <div class="p-4 bg-white/70">
                             <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-3">Course preview</p>
-                            <div class="rounded-2xl overflow-hidden border border-white/20 bg-white">
+                            <div class="rounded-2xl overflow-hidden ">
                                 <img
                                     src="{{ asset($course['thumbnail']) }}"
                                     alt="Thumbnail kursus {{ $course['title'] }}"
-                                    class="w-full aspect-[4/3] object-contain p-6"
+                                    class="w-full aspect-[4/3] object-contain p-1"
                                 >
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                         <div class="p-5 space-y-5">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Harga</p>
-                                <p class="text-3xl font-black" style="color:blue">{{ $course['price_label'] }}</p>
+                                <p class="text-3xl font-black" style="color:rgb(12, 12, 154)">{{ $course['price_label'] }}</p>
                             </div>
 
                             <a href="{{ $course['cta']['href'] }}" class="btn-gradient block w-full px-5 py-3.5 rounded-2xl text-white font-semibold text-center">
