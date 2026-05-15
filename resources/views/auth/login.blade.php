@@ -2,7 +2,7 @@
     <div class="font-['Poppins']">
         {{-- Session Status --}}
         @if (session('status'))
-            <div class="mb-6 p-4 rounded-2xl text-sm text-blue-600 bg-blue-50 border border-blue-100 animate-fade-in-down">
+            <div class="mb-6 p-4 rounded-2xl text-sm text-blue-600 bg-blue-400 border border-blue-950 animate-fade-in-down">
                 <div class="flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -14,7 +14,7 @@
 
         <div class="text-center mb-10">
             <h2 class="text-3xl font-bold text-slate-800 mb-2 tracking-tight">Selamat Datang</h2>
-            <p class="text-slate-500 text-sm">Silakan masuk untuk melanjutkan akses materi</p>
+            <p class="text-blue-800 text-sm">Silakan masuk untuk melanjutkan akses materi</p>
         </div>
 
         <form method="POST" action="{{ route('login') }}" class="space-y-6">

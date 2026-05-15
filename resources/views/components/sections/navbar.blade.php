@@ -91,6 +91,27 @@
         const logoWhite = document.getElementById('logo-white');
         const logoDark = document.getElementById('logo-dark');
         const scrollY = window.scrollY;
+        const forceLightNav = body.classList.contains('page-light-nav');
+
+        if (forceLightNav) {
+            navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
+            mobileMenu.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+
+            if (logoWhite) logoWhite.classList.replace('block', 'hidden');
+            if (logoDark) logoDark.classList.replace('hidden', 'block');
+
+            links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
+            mobileLinks.forEach(ml => { ml.style.setProperty('color', '#000000', 'important'); });
+
+            if (mobBtn) {
+                mobBtn.style.setProperty('color', '#000000', 'important');
+                mobBtn.style.borderColor = 'rgba(0,0,0,0.1)';
+            }
+
+            return;
+        }
 
         if (scrollY > 20) {
             // --- STATE: SCROLLED (PC & MOBILE) ---
