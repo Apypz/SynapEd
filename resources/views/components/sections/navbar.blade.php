@@ -83,17 +83,68 @@
     });
 
     function applyNavbarScroll() {
-        const links = document.querySelectorAll('.nav-link-dynamic');
-        const ctas = document.querySelectorAll('.nav-cta-dynamic');
-        const mobileLinks = document.querySelectorAll('.mobile-link-dynamic');
-        const mobBtn = document.querySelector('.nav-mobile-btn');
+        const body = document.body;
+        const links = navbar.querySelectorAll('.nav-link-dynamic');
+        const ctas = navbar.querySelectorAll('.nav-cta-dynamic');
+        const mobBtn = navbar.querySelector('.nav-mobile-btn');
         const logoWhite = document.getElementById('logo-white');
         const logoDark = document.getElementById('logo-dark');
         const scrollY = window.scrollY;
 
-        if (scrollY > 20) {
-            // --- STATE: SCROLLED (PC & MOBILE) ---
-            const isWhiteBg = scrollY <= 850;
+        // If a page requests a permanent light navbar (white background, dark text),
+        // apply it and skip the dynamic scroll-based changes. This allows individual
+        // pages (e.g., course detail) to opt-in by adding `page-light-nav` to the body.
+        if (body && body.classList.contains('page-light-nav')) {
+            // Force white navbar with dark text and dark logo
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.webkitBackdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+            if (logoWhite) logoWhite.classList.replace('block', 'hidden');
+            if (logoDark) logoDark.classList.replace('hidden', 'block');
+            links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
+            // Navbar CTAs: make primary (glass-card) blue with white text,
+            // and secondary CTAs white with blue text — scoped to navbar only.
+            ctas.forEach(c => {
+                if (c.classList && c.classList.contains('glass-card')) {
+                    c.style.setProperty('background', 'linear-gradient(135deg,#2563EB,#0b3d91)', 'important');
+                    c.style.setProperty('color', '#ffffff', 'important');
+                    c.style.setProperty('border-color', 'transparent', 'important');
+                } else {
+                    c.style.setProperty('background', '#ffffff', 'important');
+                    c.style.setProperty('color', '#0056D2', 'important');
+                    c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.05)', 'important');
+                }
+            });
+            if (mobBtn) {
+                mobBtn.style.setProperty('color', '#000000', 'important');
+                mobBtn.style.setProperty('border-color', 'rgba(0, 0, 0, 0.1)', 'important');
+            }
+            return;
+        }
+
+        // KONDISI 1: Scroll sudah sangat jauh (Misal: Setelah bagian Stats)
+        // Kita buat transparan kembali dengan teks putih
+        if (window.scrollY > 850) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.1)'; // Background Putih
+            navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.webkitBackdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+            if (logoWhite) logoWhite.classList.replace('block', 'hidden');
+            if (logoDark) logoDark.classList.replace('hidden', 'block');
+
+            links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
+            ctas.forEach(c => {
+                c.style.setProperty('color', '#000000', 'important');
+                c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.2)', 'important');
+            });
+            if (mobBtn) {
+                mobBtn.style.setProperty('color', '#ffffff', 'important');
+                mobBtn.style.setProperty('border-color', 'rgba(255, 255, 255, 0.2)', 'important');
+            }
+        }
 
             navbar.style.backgroundColor = isWhiteBg ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.1)';
             navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
