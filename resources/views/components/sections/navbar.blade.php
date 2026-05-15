@@ -83,19 +83,24 @@
     });
 
     function applyNavbarScroll() {
-        const body = document.body;
         const links = document.querySelectorAll('.nav-link-dynamic');
         const ctas = document.querySelectorAll('.nav-cta-dynamic');
         const mobileLinks = document.querySelectorAll('.mobile-link-dynamic');
         const mobBtn = document.querySelector('.nav-mobile-btn');
         const logoWhite = document.getElementById('logo-white');
         const logoDark = document.getElementById('logo-dark');
+        const scrollY = window.scrollY;
+
+        if (scrollY > 20) {
+            // --- STATE: SCROLLED (PC & MOBILE) ---
+            const isWhiteBg = scrollY <= 850;
 
             navbar.style.backgroundColor = isWhiteBg ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.1)';
             navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
             navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+            mobileMenu.style.backgroundColor = isWhiteBg ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.8)';
 
+            // Pastikan logo gelap muncul
             if (logoWhite) logoWhite.classList.replace('block', 'hidden');
             if (logoDark) logoDark.classList.replace('hidden', 'block');
 
