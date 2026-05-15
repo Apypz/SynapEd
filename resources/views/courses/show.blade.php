@@ -15,23 +15,32 @@
         background: rgba(255, 255, 255, 0.98) !important;
         border-bottom: 1px solid rgba(0,0,0,0.08) !important;
         box-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+        transition: none !important;
     }
 
     body.page-light-nav #logo-white { display: none !important; }
     body.page-light-nav #logo-dark  { display: block !important; }
 
-    body.page-light-nav .public-nav-link { color: #0b0b0b !important; }
-    body.page-light-nav .nav-cta-dynamic { color: #0b0b0b !important; }
-
-    /* Make primary CTA prominent blue on this page */
-    body.page-light-nav .nav-cta-dynamic:not(.glass-card) {
-        background: linear-gradient(135deg, var(--brand-900), var(--brand-800)) !important;
-        color: #ffffff !important;
-        padding: 8px 14px !important;
-        border-radius: 10px !important;
+    /* Black text for navigation links */
+    body.page-light-nav .public-nav-link { 
+        color: #0b0b0b !important; 
+        transition: none !important;
     }
 
-    body.page-light-nav .nav-mobile-btn { color: #0b0b0b !important; border-color: rgba(0,0,0,0.08) !important; }
+    /* Blue button with white text */
+    body.page-light-nav .nav-cta-dynamic {
+        background: linear-gradient(135deg, var(--brand-900), var(--brand-800)) !important;
+        color: #000000 !important;
+        padding: 8px 14px !important;
+        border-radius: 10px !important;
+        transition: none !important;
+    }
+
+    body.page-light-nav .nav-mobile-btn { 
+        color: #0b0b0b !important; 
+        border-color: rgba(0,0,0,0.08) !important;
+        transition: none !important;
+    }
 </style>
 @endpush
     <section class="relative overflow-hidden py-14 lg:py-20">
