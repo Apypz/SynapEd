@@ -14,7 +14,7 @@
             <span class="text-blue-600">untuk Generasi Teknologi</span>
         </h2>
 
-        <p class="text-lg text-slate-600 leading-relaxed mb-16 max-w-3xl mx-auto">
+        <p class="text-lg text-black leading-relaxed mb-16 max-w-3xl mx-auto">
             NeuroAcademy menghadirkan pembelajaran neuroscience dan EEG secara sistematis mulai dari konsep dasar neuron hingga analisis sinyal otak. Materi dirancang agar mudah dipahami oleh pelajar dan pemula tanpa latar belakang medis.
         </p>
 

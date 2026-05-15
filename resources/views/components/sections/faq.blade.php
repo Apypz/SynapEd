@@ -1,83 +1,95 @@
-<section id="faq" class="relative py-28 overflow-hidden" style="background: linear-gradient(180deg, #0F172A 0%, #0B1120 100%);">
-    <div class="absolute inset-0 grid-bg opacity-40"></div>
+<section id="faq" class="relative py-24 overflow-hidden bg-[#F1F5F9]">
+    <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,_rgba(59,130,246,0.05)_0%,_transparent_50%)]"></div>
 
-    <div class="relative max-w-3xl mx-auto px-6">
-
-        <!-- Section header -->
-        <div class="text-center mb-14">
-            <div class="inline-flex items-center gap-2 px-4 py-2 glass-card rounded-full border border-teal-500/20 mb-6">
-                <svg class="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-teal-300 text-sm font-medium">FAQ</span>
-            </div>
-            <h2 class="text-3xl sm:text-4xl font-black text-white leading-tight" style="font-family: var(--font-heading);">
-                Pertanyaan yang Sering
-                <span class="text-transparent bg-clip-text" style="background-image: linear-gradient(135deg, #0C7779, #5ECED0);">Ditanyakan</span>
-            </h2>
+    <div class="relative max-w-6xl mx-auto px-6">
+        <div class="text-center mb-20">
+            <h2 class="text-4xl font-poppins font-bold text-slate-900 mt-4">Frequently <span class="text-[#0056D2] ">Asked</span> Questions</h2>
         </div>
 
-        <!-- Accordion -->
-        <div class="flex flex-col gap-3" id="faq-accordion">
+        <div class="flex flex-col gap-5 items-center">
             @foreach($faqs as $index => $faq)
-            <div class="glass-card rounded-2xl border border-white/08 overflow-hidden accordion-item group hover:border-teal-500/20 transition-colors duration-200">
-                <button
-                    class="w-full flex items-center justify-between gap-4 p-6 text-left accordion-trigger"
-                    data-target="faq-{{ $index }}"
-                    aria-expanded="false">
-                    <span class="text-white font-semibold text-base leading-snug pr-4 group-hover:text-teal-200 transition-colors">
-                        {{ $faq['question'] }}
-                    </span>
-                    <span class="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 accordion-icon"
-                          style="background: rgba(12,119,121,0.15); border: 1px solid rgba(12,119,121,0.2);">
-                        <svg class="w-4 h-4 text-teal-400 transition-transform duration-300 accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </span>
-                </button>
-                <div id="faq-{{ $index }}" class="accordion-content">
-                    <div class="px-6 pb-6">
-                        <div class="h-px mb-5" style="background: rgba(255,255,255,0.06);"></div>
-                        <p class="text-slate-300 text-sm leading-relaxed">{{ $faq['answer'] }}</p>
+            <div class="group relative w-full flex justify-center items-center py-2">
+
+                <div class="absolute left-[5%] lg:left-[10%] bottom-[-10px] z-30 pointer-events-none
+                            opacity-0 group-hover:opacity-100
+                            -translate-x-10 group-hover:translate-x-2
+                            transition-all duration-500 ease-out hidden lg:block">
+                    <img src="images/3.png"
+                         alt="User Support"
+                         class="h-60 w-auto object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.15)]">
+                </div>
+
+                <div class="relative z-20 w-full max-w-2xl transition-all duration-500 ease-in-out transform lg:group-hover:translate-x-32">
+
+                    <div class="bg-white rounded-[2.5rem] rounded-tl-none shadow-[0_10px_40px_-15px_rgba(0,0,0,0.08)]
+                                border border-white group-hover:border-blue-200
+                                group-hover:shadow-blue-900/5 transition-all duration-300">
+
+                        <button
+                            class="w-full flex items-center justify-between gap-4 p-7 md:p-9 text-left accordion-trigger"
+                            data-target="faq-{{ $index }}"
+                            aria-expanded="false">
+
+                            <div class="flex items-center gap-6">
+                                <div class="w-1.5 h-10 bg-[#0056D2] rounded-full shadow-[0_0_15px_rgba(37,99,235,0.4)]"></div>
+                                <span class="text-slate-800 font-poppins font-bold text-lg md:text-xl leading-tight group-hover:text-[#0056D2] transition-colors">
+                                    {{ $faq['question'] }}
+                                </span>
+                            </div>
+
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-50 group-hover:bg-[#0056D2] transition-all duration-300 accordion-icon">
+                                <svg class="w-5 h-5 text-[#0056D2] group-hover:text-white transition-transform duration-300 accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                        </button>
+
+                        <div id="faq-{{ $index }}" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out accordion-content bg-slate-50/30">
+                            <div class="px-10 pb-9 text-slate-600 text-base md:text-lg leading-relaxed border-t border-slate-50 pt-4">
+                                {{ $faq['answer'] }}
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
             @endforeach
         </div>
 
-        <!-- Bottom note -->
-        <p class="text-center text-slate-500 text-sm mt-10">
-            Masih ada pertanyaan? <a href="#" class="text-teal-400 hover:text-teal-300 font-medium transition-colors">Hubungi kami</a>
-        </p>
+        </div>
+            <p class="text-center text-slate-500 text-sm mt-10">
+                Masih ada pertanyaan? <a href="#" class="text-white hover:text-[#0056D2] font-poppins font-medium transition-colors">Hubungi kami</a>
+            </p>
+        </div>
     </div>
 </section>
 
 @push('scripts')
 <script>
-    // Accordion logic
     document.querySelectorAll('.accordion-trigger').forEach(btn => {
         btn.addEventListener('click', () => {
             const targetId = btn.getAttribute('data-target');
-            const content  = document.getElementById(targetId);
-            const chevron  = btn.querySelector('.accordion-chevron');
-            const isOpen   = content.classList.contains('open');
+            const content = document.getElementById(targetId);
+            const chevron = btn.querySelector('.accordion-chevron');
+            const iconBg = btn.querySelector('.accordion-icon');
 
-            // Close all
+            const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+            // Menutup semua accordion lain secara eksklusif
             document.querySelectorAll('.accordion-content').forEach(c => {
-                c.classList.remove('open');
-            });
-            document.querySelectorAll('.accordion-chevron').forEach(c => {
-                c.style.transform = 'rotate(0deg)';
-            });
-            document.querySelectorAll('.accordion-trigger').forEach(b => {
-                b.setAttribute('aria-expanded', 'false');
+                c.style.maxHeight = '0px';
+                const otherBtn = c.previousElementSibling;
+                otherBtn.querySelector('.accordion-chevron').style.transform = 'rotate(0deg)';
+                otherBtn.querySelector('.accordion-icon').classList.remove('bg-blue-600');
+                otherBtn.querySelector('.accordion-icon').classList.add('bg-blue-50');
             });
 
-            // Open clicked (if it was closed)
+            // Buka yang diklik
             if (!isOpen) {
-                content.classList.add('open');
+                content.style.maxHeight = content.scrollHeight + "px";
                 chevron.style.transform = 'rotate(180deg)';
-                btn.setAttribute('aria-expanded', 'true');
+                iconBg.classList.add('bg-blue-600');
+                iconBg.classList.remove('bg-blue-50');
             }
         });
     });

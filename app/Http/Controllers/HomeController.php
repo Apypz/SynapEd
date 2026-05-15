@@ -40,12 +40,14 @@ class HomeController extends Controller
 
         $testimonials = [
             [
-                'name'     => 'Pelajar Mandiri',
+                'name'     => 'Anak Senku',
                 'position' => 'Mahasiswa Teknik Biomedik',
                 'content'  => 'Materi neuroscience di sini disajikan dengan sangat sistematis. Saya yang dari teknik pun bisa memahami cara kerja otak dan sinyal EEG dari nol.',
                 'rating'   => 5,
-                'initials' => 'PM',
+                'initials' => 'AS',
                 'color'    => '#2563EB',
+                'image'    => 'images/2.jpeg',
+                'work_image' => 'https://rsa.ugm.ac.id/wp-content/uploads/sites/60/eeg_40_channel_rsa_ugm_2.jpg',
             ],
             [
                 'name'     => 'Pengguna Aktif',
@@ -54,6 +56,8 @@ class HomeController extends Controller
                 'rating'   => 5,
                 'initials' => 'PA',
                 'color'    => '#7C3AED',
+                'image'    => 'images/mikey.jpeg',
+                'work_image' => 'https://rsa.ugm.ac.id/wp-content/uploads/sites/60/eeg_40_channel_rsa_ugm_3.jpg',
             ],
             [
                 'name'     => 'Alumni Kursus',
@@ -62,6 +66,38 @@ class HomeController extends Controller
                 'rating'   => 5,
                 'initials' => 'AK',
                 'color'    => '#0891B2',
+                'image'    => 'images/logo.png',
+                'work_image' => 'https://rsa.ugm.ac.id/wp-content/uploads/sites/60/eeg_40_channel_rsa_ugm_5.jpg',
+            ],
+            [
+                'name'     => 'Reza N',
+                'position' => 'Penjelajah',
+                'content'  => 'Bahasa yang digunakan pada modul sangat mudah dipahami, bahkan untuk saya yang awam sekalipun.',
+                'rating'   => 5,
+                'initials' => 'RN',
+                'color'    => '#0892B2',
+                'image'    => 'images/reja.jpeg',
+                'work_image' => 'https://glomeda.co.id/wp-content/uploads/2021/08/Pemeriksaan-EEG-800x475.jpg',
+            ],
+            [
+                'name'     => 'Ardik A',
+                'position' => 'Mandor Sawit',
+                'content'  => 'Modulnya sangat mudah dipahami, Saya merasa lebih percaya diri untuk mulai belajar tentang neuroscience dan EEG.',
+                'rating'   => 5,
+                'initials' => 'AA',
+                'color'    => '#0894B2',
+                'image'    => 'images/1.jpeg',
+                'work_image' => 'https://portal.riau24.com/news/20220223/riau24_1645581863.png',
+            ],
+            [
+                'name'     => 'King Olga',
+                'position' => 'Ilmuan Internasional',
+                'content'  => 'Modulnya sangat cocok untuk saya yang sudah memiliki latar belakang neuroscience. ',
+                'rating'   => 5,
+                'initials' => 'KO',
+                'color'    => '#0884B2',
+                'image'    => 'images/king.jpeg',
+                'work_image' => 'https://imotions.com/wp-content/uploads/2022/10/EEG-Visuals.jpg',
             ],
         ];
 
