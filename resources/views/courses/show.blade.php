@@ -60,8 +60,8 @@
 
                         <div class="grid gap-6 items-start">
                             <div>
-                                <h1 class="text-4xl sm:text-5xl font-black leading-tight mb-4" style="font-family:var(--font-heading); color:var(--text-h);">{{ $course['title'] }}</h1>
-                                <p class="text-lg leading-relaxed text-slate-300 max-w-2xl">{{ $course['hero_blurb'] }}</p>
+                                <h2 class="text-1xl sm:text-5xl font-bold mb-4" style="font-family:var(--font-heading); color:var(--text-h);">{{ $course['title'] }}</h2                 >
+                                <p class="text-sm leading-relaxed text-slate-300 max-w-2xl">{{ $course['hero_blurb'] }}</p>
 
                                 <div class="flex items-center gap-4 mt-6 p-4 rounded-2xl bg-white/55 border border-white/20 max-w-xl">
                                     <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0" style="background:{{ $course['gradient'] }};">{{ $course['instructor_avatar'] }}</div>
@@ -105,7 +105,7 @@
                         <div class="flex items-end justify-between gap-4">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Kurikulum</p>
-                                <h2 class="text-2xl font-black" style="font-family:var(--font-heading); color:var(--text-h);">Struktur modul</h2>
+                                <h2 class="text-2xl font-bold" style="font-family:var(--font-heading); color:var(--text-h);">Struktur Modul</h2>
                             </div>
                             <p class="text-sm text-slate-500">{{ $course['stats']['lesson_count'] }} pelajaran · {{ $course['stats']['duration_label'] }}</p>
                         </div>
@@ -158,7 +158,7 @@
                         </div>
                     </section>
 
-                    <section id="cohort" class="rounded-3xl bg-white/70 border border-white/10 p-6 sm:p-7">
+                    {{-- <section id="cohort" class="rounded-3xl bg-white/70 border border-white/10 p-6 sm:p-7">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
                             <div class="max-w-2xl">
                                 <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Jadwal Kelas</p>
@@ -184,14 +184,14 @@
                                 <p class="font-semibold" style="color:var(--text-h);">{{ $course['cohort']['schedule'] }}</p>
                             </div>
                         </div>
-                    </section>
+                    </section> --}}
 
                     <section class="rounded-3xl bg-white/70 border border-white/10 p-6 sm:p-7">
                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Instruktur</p>
                         <div class="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-6">
                             <div>
-                                <h2 class="text-2xl font-black mb-3" style="font-family:var(--font-heading); color:var(--text-h);">{{ $course['instructor_profile']['name'] }}</h2>
-                                <p class="text-slate-300 leading-relaxed mb-5">{{ $course['instructor_profile']['bio'] }}</p>
+                                <h2 class="text-2xl font-bold mb-3" style="font-family:var(--font-heading); color:var(--text-h);">{{ $course['instructor_profile']['name'] }}</h2>
+                                <p class="text-slate-300 text-sm leading-relaxed mb-5">{{ $course['instructor_profile']['bio'] }}</p>
                                 <div class="space-y-3">
                                     @foreach($course['instructor_profile']['credentials'] as $credential)
                                         <div class="flex items-start gap-3 text-sm text-slate-300">
@@ -218,8 +218,8 @@
 
                     <section class="rounded-3xl bg-white/70 border border-dashed border-white/20 p-6 sm:p-7">
                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Ulasan</p>
-                        <h2 class="text-2xl font-black mb-2" style="font-family:var(--font-heading); color:var(--text-h);">Review peserta</h2>
-                        <p class="text-slate-300 leading-relaxed">{{ $course['review_placeholder']['headline'] }} {{ $course['review_placeholder']['body'] }}</p>
+                        <h2 class="text-2xl font-bold mb-2" style="font-family:var(--font-heading); color:var(--text-h);">Review peserta</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">{{ $course['review_placeholder']['headline'] }} {{ $course['review_placeholder']['body'] }}</p>
                     </section>
                 </div>
 
@@ -229,7 +229,7 @@
                             <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-3">Course preview</p>
                             <div class="rounded-2xl overflow-hidden ">
                                 <img
-                                    src="{{ asset($course['thumbnail']) }}"
+                                    src="https://api.dicebear.com/8.x/notionists/svg?seed={{ urlencode($course['title']) }}&size=150&backgroundColor=transparent"
                                     alt="Thumbnail kursus {{ $course['title'] }}"
                                     class="w-full aspect-[4/3] object-contain p-1"
                                 >
@@ -260,7 +260,7 @@
                                 @endforeach
                             </div>
 
-                            <div class="rounded-2xl p-4 bg-white/55 border border-white/20">
+                            {{-- <div class="rounded-2xl p-4 bg-white/55 border border-white/20">
                                 <div class="flex items-center justify-between text-sm mb-2">
                                     <span class="text-slate-500">Modul</span>
                                     <span class="font-semibold" style="color:var(--text-h);">{{ $course['stats']['lesson_count'] }}</span>
@@ -273,7 +273,7 @@
                                     <span class="text-slate-500">Jadwal berikutnya</span>
                                     <span class="font-semibold" style="color:var(--text-h);">{{ $course['cohort']['starts_at'] }}</span>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </aside>

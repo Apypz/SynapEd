@@ -5,7 +5,7 @@
 
             <div class="md:col-span-2">
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="h-10 w-auto flex items-center"> <img src="images/logotextwhite.png"
+                    <div class="h-10 w-auto flex items-center"> <img src="{{ asset('images/logotextwhite.png') }}"
                             alt="SynapEd Logo"
                             class="h-12 w-auto object-contain transform scale-150 origin-left">
                     </div>
