@@ -55,11 +55,36 @@
     const navbar = document.getElementById('navbar');
 
     function applyNavbarScroll() {
+        const body = document.body;
         const links = document.querySelectorAll('.nav-link-dynamic');
         const ctas = document.querySelectorAll('.nav-cta-dynamic');
         const mobBtn = document.querySelector('.nav-mobile-btn');
         const logoWhite = document.getElementById('logo-white');
         const logoDark = document.getElementById('logo-dark');
+
+        // If a page requests a permanent light navbar (white background, dark text),
+        // apply it and skip the dynamic scroll-based changes. This allows individual
+        // pages (e.g., course detail) to opt-in by adding `page-light-nav` to the body.
+        if (body && body.classList.contains('page-light-nav')) {
+            // Force white navbar with dark text and dark logo
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.backdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.webkitBackdropFilter = 'blur(10px) saturate(180%)';
+            navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+            if (logoWhite) logoWhite.classList.replace('block', 'hidden');
+            if (logoDark) logoDark.classList.replace('hidden', 'block');
+            links.forEach(l => { l.style.setProperty('color', '#000000', 'important'); });
+            ctas.forEach(c => {
+                c.style.setProperty('color', '#000000', 'important');
+                c.style.setProperty('border-color', 'rgba(0, 0, 0, 0.2)', 'important');
+            });
+            if (mobBtn) {
+                mobBtn.style.setProperty('color', '#000000', 'important');
+                mobBtn.style.setProperty('border-color', 'rgba(0, 0, 0, 0.1)', 'important');
+            }
+            return;
+        }
 
         // KONDISI 1: Scroll sudah sangat jauh (Misal: Setelah bagian Stats)
         // Kita buat transparan kembali dengan teks putih
@@ -69,7 +94,6 @@
             navbar.style.webkitBackdropFilter = 'blur(10px) saturate(180%)';
             navbar.style.borderBottom = '1px solid rgba(0, 0, 0, 0.08)';
             navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
-
             if (logoWhite) logoWhite.classList.replace('block', 'hidden');
             if (logoDark) logoDark.classList.replace('hidden', 'block');
 
