@@ -22,7 +22,8 @@ cd /var/www/html
 # Set correct permissions
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true
 
-# Run artisan optimizations
+# Clear old caches, then rebuild with Railway env vars
+php artisan config:clear || true
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
