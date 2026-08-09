@@ -1,27 +1,16 @@
 {{-- Stats / Metrics Section --}}
-<section id="stats" class="relative py-16 overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none">
-        <div class="blob-gradient absolute w-72 h-72 -top-20 -left-20 rounded-full opacity-20"
-             style="background: radial-gradient(circle, #2563EB 0%, transparent 70%);"></div>
-        <div class="blob-gradient absolute w-72 h-72 -bottom-20 -right-20 rounded-full opacity-20"
-             style="background: radial-gradient(circle, #7C3AED 0%, transparent 70%);"></div>
-    </div>
-
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+<section id="stats-section" class="py-16 bg-[#F5F7F8]"> {{-- Background abu-abu sangat muda khas Coursera --}}
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-12 pt-12 border-t border-gray-200">
             @foreach($stats as $stat)
-            <div class="glass-card rounded-2xl p-6 flex flex-col items-center text-center group hover:scale-105 transition-transform duration-300">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                     style="background: linear-gradient(135deg, rgba(37,99,235,0.25), rgba(124,58,237,0.25)); border: 1px solid rgba(37,99,235,0.3);">
-                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="{{ $stat['icon'] }}" />
-                    </svg>
-                </div>
-                <div class="text-3xl font-bold font-mono mb-1"
-                     style="background: linear-gradient(135deg, #60A5FA, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <div class="flex flex-col items-center lg:items-start group">
+                <div class="text-4xl font-poppins font-bold text-[#0056D2] mb-1 group-hover:scale-110 transition-transform">
                     {{ $stat['value'] }}
                 </div>
-                <div class="text-sm font-medium stat-label-text">{{ $stat['label'] }}</div>
+                <div class="text-sm font-poppins font-bold text-gray-800 uppercase tracking-widest">
+                    {{ $stat['label'] }}
+                </div>
+                <div class="w-8 h-1 bg-blue-200 mt-2 group-hover:w-full transition-all duration-500"></div>
             </div>
             @endforeach
         </div>
