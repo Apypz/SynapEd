@@ -107,7 +107,7 @@
                                 {{ !empty($course['is_enrolled']) ? 'Mulai' : 'Beli' }}
                             </a>
                         @else
-                            <a href="{{ route('login') }}"
+                            <a href="{{ route('login') }}" style="color:#ffffff !important;"
                                class="inline-flex items-center justify-center py-2.5 rounded-lg text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200">
                                 {{ !empty($course['has_free_preview']) ? 'Preview' : 'Beli' }}
                             </a>

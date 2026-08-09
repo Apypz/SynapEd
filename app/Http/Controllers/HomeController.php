@@ -60,13 +60,13 @@ class HomeController extends Controller
                 'work_image' => 'https://rsa.ugm.ac.id/wp-content/uploads/sites/60/eeg_40_channel_rsa_ugm_3.jpg',
             ],
             [
-                'name'     => 'Olga Bengkulu 777',
+                'name'     => 'King Olga 67',
                 'position' => 'Ilmuan Internasional',
                 'content'  => 'Modulnya sangat cocok untuk saya yang sudah memiliki latar belakang neuroscience. ',
                 'rating'   => 5,
                 'initials' => 'KO',
                 'color'    => '#0884B2',
-                'image'    => 'images/4.png',
+                'image'    => 'images/king.png',
                 'work_image' => 'https://imotions.com/wp-content/uploads/2022/10/EEG-Visuals.jpg',
             ],
             [
