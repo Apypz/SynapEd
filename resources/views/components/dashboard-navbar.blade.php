@@ -26,13 +26,13 @@
             <div class="hidden md:flex w-1/4 justify-end items-center gap-3">
                 @auth
                 <div class="relative" id="profile-dropdown-container">
-                    <button type="button" id="profile-dropdown-trigger" class="flex items-center gap-3 p-1.5 pl-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 cursor-pointer transition-all focus:outline-none select-none">
+                    <button type="button" id="profile-dropdown-trigger" class="flex items-center gap-3 p-1.5 pl-3.5 rounded-2xl hover:bg-slate-200/80 border border-slate-200 cursor-pointer transition-all focus:outline-none select-none">
                         <div class="text-right">
                             <p class="text-xs font-bold text-slate-900 leading-tight">{{ Auth::user()->name ?? 'User' }}</p>
-                            <span class="inline-block px-2 py-0.5 text-[9px] font-extrabold rounded-full uppercase tracking-wider
+                            <span class="inline-block px-0 py-0.5 text-[9px] font-extrabold rounded-full uppercase tracking-wider
                                 @if((Auth::user()->role ?? '') === 'admin') bg-rose-100 text-rose-700
                                 @elseif((Auth::user()->role ?? '') === 'educator') bg-amber-100 text-amber-700
-                                @else bg-blue-100 text-blue-700 @endif">
+                                @else text-blue-700 @endif">
                                 {{ Auth::user()->role ?? 'Student' }}
                             </span>
                         </div>
