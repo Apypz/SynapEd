@@ -43,7 +43,13 @@ class CourseController extends Controller
         $course['last_updated'] = $courseModel->updated_at->translatedFormat('d F Y');
         $course['instructor_profile'] = [
             'name' => $courseModel->instructor ?: ($courseModel->author->name ?? 'Tim Pengajar'),
+            'role' => 'Pengajar & Spesialis Neurosains',
             'bio' => $courseModel->instructor_bio ?: 'Pengajar Spesialis Neurosains',
+            'credentials' => [
+                'Pakar Neurosains Kognitif & Teknologi LMS',
+                'Berpengalaman mengajar 10+ modul interaktif',
+                'Membimbing ribuan siswa di platform SynapEd',
+            ],
             'other_courses' => Course::where('id', '!=', $courseModel->id)->limit(2)->get(['title', 'slug'])->toArray(),
         ];
         $course['thumbnail'] = $courseModel->thumbnail;
@@ -71,10 +77,21 @@ class CourseController extends Controller
             }
             $sId = 1;
             foreach ($sectionsMap as $secTitle => $secLessons) {
+                $decLessons = [];
+                foreach ($secLessons as $les) {
+                    $les['type_label'] = ucfirst($les['type']);
+                    $les['type_icon'] = $les['type'];
+                    $les['completed'] = false;
+                    $les['locked'] = ! $les['free'];
+                    $les['is_preview'] = (bool) $les['free'];
+                    $decLessons[] = $les;
+                }
                 $groupedSections[] = [
                     'id' => $sId++,
                     'title' => $secTitle,
-                    'lessons' => $secLessons,
+                    'lessons' => $decLessons,
+                    'lesson_count' => count($decLessons),
+                    'section_duration_label' => count($decLessons) . ' Pelajaran',
                 ];
             }
         } else {
@@ -82,8 +99,22 @@ class CourseController extends Controller
                 'id' => 1,
                 'title' => 'Pengantar Kursus',
                 'lessons' => [
-                    ['id' => 1, 'slug' => 'pengantar', 'title' => 'Pengantar ' . $courseModel->title, 'type' => 'video', 'duration' => '10 menit', 'free' => true],
+                    [
+                        'id' => 1,
+                        'slug' => 'pengantar',
+                        'title' => 'Pengantar ' . $courseModel->title,
+                        'type' => 'video',
+                        'duration' => '10 menit',
+                        'free' => true,
+                        'type_label' => 'Video',
+                        'type_icon' => 'video',
+                        'completed' => false,
+                        'locked' => false,
+                        'is_preview' => true,
+                    ],
                 ],
+                'lesson_count' => 1,
+                'section_duration_label' => '1 Pelajaran · 10 menit',
             ];
         }
 
@@ -110,6 +141,18 @@ class CourseController extends Controller
         $course['seo_title'] = $courseModel->title . ' – SynapEd';
         $course['seo_description'] = Str::limit($courseModel->short_desc ?: $courseModel->title, 155);
         $course['canonical_url'] = route('courses.show', $courseModel->slug);
+        $course['gradient'] = 'linear-gradient(135deg, #2563EB, #1D4ED8)';
+        $course['gradient_from'] = '#2563EB';
+        $course['gradient_to'] = '#1D4ED8';
+        $course['review_placeholder'] = [
+            'headline' => '4.8 dari 5 Bintang.',
+            'body' => 'Berdasarkan ulasan dari para peserta yang telah menyelesaikan materi kursus ini.',
+        ];
+        $course['included_items'] = [
+            ['label' => ($course['stats']['duration_label'] ?? '6 Jam') . ' Akses Materi', 'detail' => 'Akses selamanya ke seluruh materi video & bacaan'],
+            ['label' => ($course['stats']['lesson_count'] ?? 10) . ' Pelajaran Terstruktur', 'detail' => 'Kurikulum dari tingkat dasar hingga lanjutan'],
+            ['label' => 'Sertifikat Penyelesaian', 'detail' => 'Diberikan secara otomatis setelah menyelesaikan kuis & materi'],
+        ];
         $course['hero_blurb'] = $courseModel->short_desc;
         $course['instructor_avatar'] = strtoupper(Str::substr($course['instructor_profile']['name'], 0, 2));
         $course['related_courses'] = collect($course['instructor_profile']['other_courses'])

@@ -73,11 +73,11 @@
                                 <p class="text-sm leading-relaxed text-slate-300 max-w-2xl">{{ $course['hero_blurb'] }}</p>
 
                                 <div class="flex items-center gap-4 mt-6 p-4 rounded-2xl bg-white/55 border border-white/20 max-w-xl">
-                                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0" style="background:{{ $course['gradient'] }};">{{ $course['instructor_avatar'] }}</div>
+                                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg flex-shrink-0" style="background:{{ $course['gradient'] ?? 'linear-gradient(135deg, #2563EB, #1D4ED8)' }};">{{ $course['instructor_avatar'] }}</div>
                                     <div>
                                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-1">Instruktur</p>
-                                        <p class="font-bold" style="color:var(--text-h);">{{ $course['instructor_profile']['name'] }}</p>
-                                        <p class="text-sm text-slate-400">{{ $course['instructor_profile']['role'] }}</p>
+                                        <p class="font-bold" style="color:var(--text-h);">{{ $course['instructor_profile']['name'] ?? 'Tim Pengajar' }}</p>
+                                        <p class="text-sm text-slate-400">{{ $course['instructor_profile']['role'] ?? 'Spesialis Pengajar Neurosains' }}</p>
                                     </div>
                                 </div>
 
@@ -133,10 +133,10 @@
                                 <details class="accordion-item rounded-3xl border border-white/10 bg-white/70 overflow-hidden" @if($loop->first) open @endif>
                                     <summary class="cursor-pointer list-none px-5 sm:px-6 py-4 flex items-center justify-between gap-4">
                                         <div class="flex items-center gap-4 min-w-0">
-                                            <span class="w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-black text-white flex-shrink-0" style="background:{{ $course['gradient'] }};">{{ $loop->iteration }}</span>
+                                            <span class="w-10 h-10 rounded-2xl flex items-center justify-center text-sm font-black text-white flex-shrink-0" style="background:{{ $course['gradient'] ?? 'linear-gradient(135deg, #2563EB, #1D4ED8)' }};">{{ $loop->iteration }}</span>
                                             <div class="min-w-0">
                                                 <h3 class="font-bold text-base sm:text-lg truncate" style="color:var(--text-h);">{{ $section['title'] }}</h3>
-                                                <p class="text-sm text-slate-500">{{ $section['lesson_count'] }} pelajaran · {{ $section['section_duration_label'] }}</p>
+                                                <p class="text-sm text-slate-500">{{ $section['lesson_count'] ?? count($section['lessons'] ?? []) }} pelajaran · {{ $section['section_duration_label'] ?? '10 menit' }}</p>
                                             </div>
                                         </div>
                                         <svg class="accordion-chevron w-5 h-5 text-slate-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
@@ -208,12 +208,12 @@
                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Instruktur</p>
                         <div class="grid lg:grid-cols-[minmax(0,1fr)_260px] gap-6">
                             <div>
-                                <h2 class="text-2xl font-bold mb-3" style="font-family:var(--font-heading); color:var(--text-h);">{{ $course['instructor_profile']['name'] }}</h2>
-                                <p class="text-slate-300 text-sm leading-relaxed mb-5">{{ $course['instructor_profile']['bio'] }}</p>
+                                <h2 class="text-2xl font-bold mb-3" style="font-family:var(--font-heading); color:var(--text-h);">{{ $course['instructor_profile']['name'] ?? 'Tim Pengajar' }}</h2>
+                                <p class="text-slate-300 text-sm leading-relaxed mb-5">{{ $course['instructor_profile']['bio'] ?? 'Spesialis Pengajar & Neurosains' }}</p>
                                 <div class="space-y-3">
-                                    @foreach($course['instructor_profile']['credentials'] as $credential)
+                                    @foreach($course['instructor_profile']['credentials'] ?? [] as $credential)
                                         <div class="flex items-start gap-3 text-sm text-slate-300">
-                                            <span class="mt-1 w-2 h-2 rounded-full flex-shrink-0" style="background:{{ $course['gradient_from'] }};"></span>
+                                            <span class="mt-1 w-2 h-2 rounded-full flex-shrink-0" style="background:{{ $course['gradient_from'] ?? '#2563EB' }};"></span>
                                             <span>{{ $credential }}</span>
                                         </div>
                                     @endforeach
@@ -312,7 +312,7 @@
                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-1">Harga</p>
                         <p class="text-2xl font-black" style="color:var(--text-h);">{{ $course['price_label'] }}</p>
                     </div>
-                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white" style="background:{{ $course['gradient'] }};">
+                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center text-white" style="background:{{ $course['gradient'] ?? 'linear-gradient(135deg, #2563EB, #1D4ED8)' }};">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $iconPaths[$course['icon']] }}"/></svg>
                     </div>
                 </div>
@@ -338,5 +338,5 @@ summary::-webkit-details-marker { display: none; }
 .accordion-chevron { transition: transform 0.2s ease; }
 .accordion-item[open] .accordion-chevron { transform: rotate(180deg); }
 </style>
-<script type="application/ld+json">{!! json_encode($course['course_schema'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+<script type="application/ld+json">{!! json_encode($course['course_schema'] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
 @endpush

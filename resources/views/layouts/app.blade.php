@@ -49,7 +49,32 @@
 
     {{-- Main Page Content --}}
     <main class="lms-content-full">
-        {{ $slot }}
+        {{-- Global Alert Notifier --}}
+        @if(session('success'))
+            <div class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">✅</span>
+                    <span>{{ session('success') }}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-emerald-600 hover:text-emerald-900 font-bold">✕</button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">⚠️</span>
+                    <span>{{ session('error') }}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-rose-600 hover:text-rose-900 font-bold">✕</button>
+            </div>
+        @endif
+
+        @if(isset($slot) && !empty((string)$slot))
+            {{ $slot }}
+        @else
+            @yield('content')
+        @endif
     </main>
 
     @stack('scripts')

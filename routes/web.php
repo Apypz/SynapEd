@@ -41,6 +41,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/payments/{payment}/status', [PaymentController::class, 'updateStatus'])->name('payments.update-status');
 
     // Admin User Management (Admin only)
+    Route::get('/admin/users',        [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::post('/admin/users',       [AdminUserController::class, 'store'])->name('admin.users.store');
     Route::put('/admin/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');

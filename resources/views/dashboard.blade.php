@@ -4,7 +4,7 @@
     </x-slot>
 
     @php
-        $user = auth()->user();
+        $user = auth()->user()->fresh() ?? auth()->user();
         $isStudent = $user->isStudent();
         $isEducator = $user->isEducator();
         $isAdmin = $user->isAdmin();
@@ -13,23 +13,15 @@
     <div class="space-y-10">
 
         {{-- ── HERO WELCOME BANNER (ONLINETUTOR FUTURISTIC STYLE) ───────────────────── --}}
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-8 sm:p-10 text-white shadow-xl shadow-blue-500/15">
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-blue-800 to-blue-600 p-8 sm:p-10 text-white shadow-xl shadow-blue-500/15">
             {{-- Background decorative grid & glow circles --}}
             <div class="absolute -right-10 -bottom-10 w-72 h-72 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
             <div class="absolute right-1/3 -top-10 w-64 h-64 rounded-full bg-cyan-400/20 blur-3xl pointer-events-none"></div>
 
             <div class="relative z-10 max-w-3xl space-y-4">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-xs font-bold tracking-wide uppercase">
-                    <span>✨</span>
-                    <span>
-                        @if($isAdmin) Mode Administrator Platform
-                        @elseif($isEducator) Mode Educator & Pengajar Modul
-                        @else Mode Student & Ruang Belajar @endif
-                    </span>
-                </div>
 
                 <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight font-heading leading-tight text-white">
-                    Teaching in the internet age means we must teach <span class="text-amber-300">tomorrow's skills today</span>
+                    Teaching in the internet age means we must teach tomorrow's skills today
                 </h1>
 
                 <p class="text-blue-100 text-sm sm:text-base leading-relaxed max-w-2xl">
@@ -44,11 +36,11 @@
                     @endif
                     @if($isAdmin)
                         <button onclick="document.getElementById('modalAddUser').classList.remove('hidden')" class="px-5 py-2.5 rounded-2xl bg-white/20 hover:bg-white/30 text-white font-bold text-xs backdrop-blur-md border border-white/30 transition-all flex items-center gap-2">
-                            <span>👤 + Tambah User Baru</span>
+                            <span>+ Tambah User Baru</span>
                         </button>
                     @endif
-                    <a href="{{ route('courses.index') }}" class="px-5 py-2.5 rounded-2xl bg-white text-blue-600 hover:bg-blue-50 font-bold text-xs shadow-md transition-all flex items-center gap-2">
-                        <span>🔍 Jelajahi Katalog Kursus</span>
+                    <a href="{{ route('courses.index') }}" class="px-5 py-2.5 rounded-2xl bg-white text-blue-900 hover:bg-blue-50 font-bold text-xs shadow-md transition-all flex items-center gap-2">
+                        <span>Jelajahi Katalog Kursus</span>
                     </a>
                 </div>
             </div>

@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user       = Auth::user();
+        $user       = User::find(Auth::id()) ?? Auth::user();
         $courses    = Course::with('lessons')->latest()->get();
         $levelMap   = LmsData::levelColorMap();
         $iconPaths  = LmsData::iconPaths();

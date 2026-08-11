@@ -1,3 +1,6 @@
+@php
+    $authUser = Auth::check() ? (Auth::user()->fresh() ?? Auth::user()) : null;
+@endphp
 <nav class="sticky top-0 left-0 right-0 z-50 transition-all duration-300 font-['Poppins'] bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm" id="dashboard-navbar">
     <div class="max-w-7xl mx-auto px-6 py-3.5">
         <div class="flex items-center justify-between">
@@ -17,6 +20,11 @@
                 <a href="{{ route('courses.index') }}" class="text-sm font-semibold tracking-wide transition-colors duration-200 {{ request()->routeIs('courses.*') ? 'text-blue-600 font-bold border-b-2 border-blue-600 pb-1' : 'text-slate-700 hover:text-blue-600' }}">
                     Katalog Kursus
                 </a>
+                @if($authUser && $authUser->role === 'admin')
+                    <a href="{{ route('admin.users.index') }}" class="text-sm font-semibold tracking-wide transition-colors duration-200 {{ request()->routeIs('admin.users.*') ? 'text-blue-600 font-bold border-b-2 border-blue-600 pb-1' : 'text-slate-700 hover:text-blue-600' }}">
+                        Manajemen User
+                    </a>
+                @endif
                 <a href="{{ route('home') }}" class="text-sm font-semibold tracking-wide transition-colors duration-200 text-slate-700 hover:text-blue-600">
                     Landing Page
                 </a>
@@ -28,21 +36,18 @@
                 <div class="relative" id="profile-dropdown-container">
                     <button type="button" id="profile-dropdown-trigger" class="flex items-center gap-3 p-1.5 pl-3.5 rounded-2xl hover:bg-slate-200/80 border border-slate-200 cursor-pointer transition-all focus:outline-none select-none">
                         <div class="text-right">
-                            <p class="text-xs font-bold text-slate-900 leading-tight">{{ Auth::user()->name ?? 'User' }}</p>
-                            <span class="inline-block px-0 py-0.5 text-[9px] font-extrabold rounded-full uppercase tracking-wider
-                                @if((Auth::user()->role ?? '') === 'admin') bg-rose-100 text-rose-700
-                                @elseif((Auth::user()->role ?? '') === 'educator') bg-amber-100 text-amber-700
-                                @else text-blue-700 @endif">
-                                {{ Auth::user()->role ?? 'Student' }}
+                            <p class="text-xs font-bold text-slate-900 leading-tight">{{ $authUser->name ?? 'User' }}</p>
+                            <span class="inline-block px-0 py-0.5 text-[9px] font-extrabold rounded-full uppercase tracking-wider text-blue-700">
+                                {{ $authUser->role ?? 'Student' }}
                             </span>
                         </div>
 
                         {{-- User Avatar Image or Fallback Letter --}}
                         <div class="w-9 h-9 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-sm font-extrabold shadow-md flex-shrink-0">
-                            @if(Auth::user()->avatar)
-                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-full h-full object-cover">
+                            @if($authUser && $authUser->avatar)
+                                <img src="{{ $authUser->avatar }}" alt="{{ $authUser->name }}" class="w-full h-full object-cover">
                             @else
-                                {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                                <img src="images/profil.jpg" alt="Profil User" class="w-full h-full object-cover">
                             @endif
                         </div>
 
@@ -55,6 +60,12 @@
                             <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                             Profil Saya
                         </a>
+                        @if($authUser && $authUser->role === 'admin')
+                            <a href="{{ route('admin.users.index') }}" class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors">
+                                <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                Manajemen User
+                            </a>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors">
@@ -80,6 +91,9 @@
     <div id="dash-mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200 p-6 flex-col gap-3 shadow-xl">
         <a href="{{ route('dashboard') }}" class="text-sm font-semibold text-slate-800 py-2">Dashboard</a>
         <a href="{{ route('courses.index') }}" class="text-sm font-semibold text-slate-800 py-2">Katalog Kursus</a>
+        @if($authUser && $authUser->role === 'admin')
+            <a href="{{ route('admin.users.index') }}" class="text-sm font-semibold text-slate-800 py-2">Manajemen User</a>
+        @endif
         <a href="{{ route('home') }}" class="text-sm font-semibold text-slate-800 py-2">Landing Page</a>
         <hr class="border-slate-100">
         <a href="{{ route('profile.edit') }}" class="text-sm font-semibold text-slate-800 py-2">Profil Saya</a>
