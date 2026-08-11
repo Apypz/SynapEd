@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-white font-bold text-2xl leading-tight mb-3">Teknologi <br> EEG Modern</h3>
+                        <h3 class="font-bold text-2xl leading-tight mb-3" style="color: white">Teknologi <br> EEG Modern</h3>
                         <p class="text-blue-100 text-sm leading-relaxed">Kuasai cara kerja elektroda dan pengukuran impedansi sinyal otak secara presisi.</p>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-white font-bold text-2xl leading-tight mb-3">Antarmuka <br> Otak-Mesin</h3>
+                        <h3 class="text-white font-bold text-2xl leading-tight mb-3" style="color: white">Antarmuka <br> Otak-Mesin</h3>
                         <p class="text-blue-100 text-sm leading-relaxed">Pelajari kendali perangkat via sinyal otak dan aplikasi neurofeedback modern.</p>
                     </div>
                 </div>

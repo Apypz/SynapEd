@@ -4,7 +4,7 @@
     <div class="relative max-w-7xl mx-auto px-6">
         <div class="text-center mb-20">
             <h2 class="text-3xl sm:text-4xl lg:text-5xl font-poppins font-bold text-slate-900 leading-tight mb-10">
-                Beikut Adalah Langkah <span class="text-[#0056D2]">Pembelajaran</span> Kamu
+                Berikut Adalah Langkah <span class="text-[#0056D2]">Pembelajaran</span> Kamu
             </h2>
             <h6 class="text-slate-500 font-poppins text-semibold">
                 klik untuk interaksi !!!
