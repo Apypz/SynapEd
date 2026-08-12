@@ -117,7 +117,7 @@
                                 📹 {{ count($c['lessons'] ?? []) }}x Lesson
                             </div>
                             <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold">
-                                ⭐ 4.9
+                                ⭐ 4.95
                             </div>
                         </div>
 
