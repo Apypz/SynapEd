@@ -13,11 +13,11 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: APP_URL
-        value: https://synaped-production.up.railway.app
+        value: https://synaped.onrender.com
       - key: DB_CONNECTION
         value: sqlite
       - key: DB_DATABASE
-        value: /tmp/database.sqlite
+        value: /var/data/database.sqlite
       - key: SESSION_DRIVER
         value: file
       - key: CACHE_STORE
@@ -28,3 +28,7 @@ services:
         value: stderr
       - key: LOG_LEVEL
         value: error
+    disk:
+      name: sqlite-data
+      mountPath: /var/data
+      sizeGB: 1

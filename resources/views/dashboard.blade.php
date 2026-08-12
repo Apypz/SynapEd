@@ -108,11 +108,11 @@
                         $lastLes = $item['last_lesson'] ?? 'pengantar';
                     @endphp
                     <div class="group rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col">
-                        
+
                         {{-- Course Thumbnail Image --}}
                         <div class="relative h-48 w-full bg-slate-100 overflow-hidden">
                             <img src="{{ !empty($c['thumbnail']) ? $c['thumbnail'] : 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop' }}" alt="{{ $c['title'] ?? 'Kursus' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            
+
                             <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-blue-600 shadow-sm">
                                 📹 {{ count($c['lessons'] ?? []) }}x Lesson
                             </div>
@@ -189,7 +189,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($displayCourses as $c)
                 <div class="group rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col">
-                    
+
                     {{-- Course Thumbnail --}}
                     <div class="relative h-48 w-full bg-slate-100 overflow-hidden">
                         <img src="{{ $c->thumbnail ?: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop' }}" alt="{{ $c->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -287,7 +287,7 @@
         {{-- ── SECTION: KELOLA USER & PEMBAYARAN (ADMIN VIEW ONLY) ──────────────── --}}
         @if($isAdmin)
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
+
             {{-- User Management Card --}}
             <div class="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm space-y-4">
                 <div class="flex items-center justify-between pb-3 border-b border-slate-100">
@@ -356,7 +356,7 @@
                         <p class="text-[11px] text-slate-600">Kursus: <strong>{{ $pm->course->title ?? '-' }}</strong></p>
                         <div class="flex items-center justify-between pt-1">
                             <span class="font-mono text-blue-600 font-bold">Rp {{ number_format($pm->amount, 0, ',', '.') }}</span>
-                            
+
                             @if($pm->status==='pending' || $pm->status==='Pending')
                             <div class="flex items-center gap-2">
                                 <form action="{{ route('admin.payments.approve', $pm->id) }}" method="POST">
