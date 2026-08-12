@@ -504,7 +504,7 @@ function autoMarkComplete() {
 // EVALUATE STUDENT QUIZ ANSWERS WITH REAL SCORING
 function evaluateStudentQuiz(e) {
     e.preventDefault();
-    const quizData = @json(!empty($lesson['quiz_data']) ? $lesson['quiz_data'] : []);
+    const quizData = @json($qList ?? []);
     let earnedPoints = 0;
     let totalPoints = 0;
 

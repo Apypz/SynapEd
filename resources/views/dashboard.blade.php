@@ -67,6 +67,20 @@
         </div>
         @endif
 
+        @if($errors->any())
+        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 shadow-sm">
+            <div class="flex items-center gap-3 mb-1">
+                <span class="text-xl">⚠️</span>
+                <p class="text-xs font-bold">Gagal menyimpan, mohon periksa isian berikut:</p>
+            </div>
+            <ul class="list-disc list-inside text-xs pl-8">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
 
         {{-- ── DYNAMIC STATS OVERVIEW CARDS ────────────────────────────────── --}}
         @if(isset($stats) && count($stats) > 0)

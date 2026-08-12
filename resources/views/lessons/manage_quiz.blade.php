@@ -91,26 +91,26 @@
         $existingQuizData = isset($lesson) && !empty($lesson->quiz_data) ? $lesson->quiz_data : [
             [
                 'id' => 1,
-                'question' => 'Apa komponen utama dalam pengukuran gelombang elektrik otak?',
+                'question' => '',
                 'type' => 'pilihan_ganda',
                 'points' => 50,
                 'options' => [
-                    'Elektroda EEG dan Penguat Sinyal (Amplifier)',
-                    'Sensor Suhu Tubuh Sintetis',
-                    'Kamera Optik Pengenal Gerak',
-                    'Perangkat Magnetik Statis'
+                    '',
+                    '',
+                    '',
+                    ''
                 ],
                 'correct_answer' => 0,
                 'guide' => ''
             ],
             [
                 'id' => 2,
-                'question' => 'Jelaskan secara ringkas perbedaan antara gelombang Alpha dan Beta!',
+                'question' => '',
                 'type' => 'uraian',
                 'points' => 50,
                 'options' => ['', '', '', ''],
                 'correct_answer' => 0,
-                'guide' => 'Gelombang Alpha (8-12 Hz) dominan saat rileks, sedangkan Beta (13-30 Hz) dominan saat fokus/aktif.'
+                'guide' => ''
             ]
         ];
     @endphp
@@ -182,7 +182,34 @@
         });
     }
 
+    function syncQuestionsFromDOM() {
+        const container = document.getElementById('questionsContainer');
+        questions.forEach((q, idx) => {
+            const card = container.children[idx];
+            if (!card) return;
+
+            const questionInput = card.querySelector(`[name="questions[${idx}][question]"]`);
+            if (questionInput) q.question = questionInput.value;
+
+            const pointsInput = card.querySelector(`[name="questions[${idx}][points]"]`);
+            if (pointsInput) q.points = pointsInput.value;
+
+            if (q.type === 'pilihan_ganda') {
+                q.options = [0, 1, 2, 3].map(optIdx => {
+                    const optInput = card.querySelector(`[name="questions[${idx}][options][${optIdx}]"]`);
+                    return optInput ? optInput.value : ((q.options && q.options[optIdx]) || '');
+                });
+                const checkedRadio = card.querySelector(`[name="questions[${idx}][correct_answer]"]:checked`);
+                if (checkedRadio) q.correct_answer = parseInt(checkedRadio.value);
+            } else {
+                const guideInput = card.querySelector(`[name="questions[${idx}][guide]"]`);
+                if (guideInput) q.guide = guideInput.value;
+            }
+        });
+    }
+
     function addQuestionCard() {
+        syncQuestionsFromDOM();
         questions.push({
             id: questions.length + 1,
             question: '',
@@ -200,11 +227,13 @@
             alert('Minimal harus ada 1 pertanyaan dalam kuis.');
             return;
         }
+        syncQuestionsFromDOM();
         questions.splice(idx, 1);
         renderQuestions();
     }
 
     function changeQuestionType(idx, newType) {
+        syncQuestionsFromDOM();
         questions[idx].type = newType;
         renderQuestions();
     }
