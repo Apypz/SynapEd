@@ -29,7 +29,7 @@
                 <div class="flex flex-col items-center">
                     <a href="{{ route('home') }}" class="inline-flex items-center justify-center h-19 group">
                         <img src="{{ asset('images/logotext.png') }}"
-                            alt="NeuroAcademy"
+                            alt="SynapEd"
                             class="h-20 w-auto transform scale-[1.8] origin-center transition-transform duration-300 group-hover:scale-[2.0]">
                     </a>
                 </div>

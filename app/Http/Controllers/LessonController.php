@@ -6,6 +6,7 @@ use App\Helpers\LmsData;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Lesson;
+use App\Models\QuizAttempt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -51,7 +52,7 @@ class LessonController extends Controller
                 'video_url' => $l->video_url,
                 'transcript' => $l->transcript,
                 'attachment_path' => $l->attachment_path,
-                'quiz_data' => $l->quiz_data,
+                'quiz_data' => ($l->type === 'quiz' && empty($l->quiz_data)) ? self::defaultQuizData() : $l->quiz_data,
                 'free' => (bool)$l->free,
                 'section_title' => $l->section_title ?: 'Modul Utama',
                 'is_completed' => $isCompleted,
@@ -134,10 +135,7 @@ class LessonController extends Controller
 
     public function create(Request $request, Course $course)
     {
-        $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
-        }
+        $this->authorize('update', $course);
 
         $type = $request->query('type', 'video');
 
@@ -152,10 +150,7 @@ class LessonController extends Controller
 
     public function edit(Lesson $lesson)
     {
-        $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
-        }
+        $this->authorize('update', $lesson);
 
         $course = $lesson->course;
 
@@ -228,12 +223,96 @@ class LessonController extends Controller
             ->with('success', "🎉 Selamat! Anda telah menyelesaikan seluruh materi di modul ini. Total Progress: {$newProgress}%.");
     }
 
-    public function store(Request $request, Course $course)
+    public function submitQuiz(Request $request, string $courseSlug, string $lessonSlug)
     {
         $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
+        $courseModel = Course::where('slug', $courseSlug)->firstOrFail();
+        $lesson = Lesson::where('course_id', $courseModel->id)->where('slug', $lessonSlug)->firstOrFail();
+
+        // Ensure the student is enrolled (mirrors the auto-enroll pattern used in show()/markComplete())
+        Enrollment::firstOrCreate(
+            [
+                'user_id' => $user->id,
+                'course_id' => $courseModel->id,
+            ],
+            [
+                'progress' => 0,
+                'status' => 'active',
+                'completed_lessons' => [],
+            ]
+        );
+
+        $submittedAnswers = $request->input('answers', []);
+        $questions = (! empty($lesson->quiz_data)) ? $lesson->quiz_data : self::defaultQuizData();
+
+        $earnedPoints = 0;
+        $totalPoints = 0;
+        $results = [];
+
+        foreach ($questions as $idx => $q) {
+            $points = (int) ($q['points'] ?? 50);
+            $totalPoints += $points;
+            $type = $q['type'] ?? 'pilihan_ganda';
+            $submitted = $submittedAnswers[$idx] ?? null;
+
+            if ($type === 'pilihan_ganda') {
+                $correctOption = (int) ($q['correct_answer'] ?? 0);
+                $isCorrect = $submitted !== null && (int) $submitted === $correctOption;
+            } else {
+                $isCorrect = is_string($submitted) && strlen(trim($submitted)) > 5;
+            }
+
+            if ($isCorrect) {
+                $earnedPoints += $points;
+            }
+            $results[$idx] = $isCorrect;
         }
+
+        $score = $totalPoints > 0 ? (int) round(($earnedPoints / $totalPoints) * 100) : 100;
+
+        QuizAttempt::create([
+            'user_id' => $user->id,
+            'lesson_id' => $lesson->id,
+            'course_id' => $courseModel->id,
+            'answers' => $submittedAnswers,
+            'score' => $score,
+            'submitted_at' => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'score' => $score,
+            'earned_points' => $earnedPoints,
+            'total_points' => $totalPoints,
+            'results' => $results,
+        ]);
+    }
+
+    private static function defaultQuizData(): array
+    {
+        return [
+            [
+                'id' => 1,
+                'question' => 'Apa komponen utama dalam pengukuran gelombang elektrik otak?',
+                'type' => 'pilihan_ganda',
+                'points' => 50,
+                'options' => ['Elektroda EEG dan Penguat Sinyal', 'Sensor Suhu Tubuh', 'Kamera Optik', 'Perangkat Magnetik Statis'],
+                'correct_answer' => 0,
+            ],
+            [
+                'id' => 2,
+                'question' => 'Jelaskan perbedaan mendasar gelombang Alpha dan Beta!',
+                'type' => 'uraian',
+                'points' => 50,
+                'options' => ['', '', '', ''],
+                'correct_answer' => 0,
+            ],
+        ];
+    }
+
+    public function store(Request $request, Course $course)
+    {
+        $this->authorize('update', $course);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -243,6 +322,7 @@ class LessonController extends Controller
             'content' => 'nullable|string',
             'video_url' => 'nullable|string',
             'transcript' => 'nullable|string',
+            'attachment_file' => 'nullable|mimes:pdf,doc,docx,ppt,pptx,mp4,jpg,jpeg,png|max:10240',
         ]);
 
         $attachmentPath = null;
@@ -282,10 +362,7 @@ class LessonController extends Controller
 
     public function update(Request $request, Lesson $lesson)
     {
-        $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
-        }
+        $this->authorize('update', $lesson);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -295,6 +372,7 @@ class LessonController extends Controller
             'content' => 'nullable|string',
             'video_url' => 'nullable|string',
             'transcript' => 'nullable|string',
+            'attachment_file' => 'nullable|mimes:pdf,doc,docx,ppt,pptx,mp4,jpg,jpeg,png|max:10240',
         ]);
 
         if ($request->hasFile('attachment_file')) {
@@ -313,10 +391,7 @@ class LessonController extends Controller
 
     public function destroy(Lesson $lesson)
     {
-        $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
-        }
+        $this->authorize('delete', $lesson);
 
         $title = $lesson->title;
         $lesson->delete();

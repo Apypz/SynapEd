@@ -237,7 +237,11 @@
                     <section class="rounded-3xl bg-white/70 border border-dashed border-white/20 p-6 sm:p-7">
                         <p class="text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">Ulasan</p>
                         <h2 class="text-2xl font-bold mb-2" style="font-family:var(--font-heading); color:var(--text-h);">Review peserta</h2>
-                        <p class="text-slate-300 text-sm leading-relaxed">{{ $course['review_placeholder']['headline'] }} {{ $course['review_placeholder']['body'] }}</p>
+                        @if(!empty($course['reviews_count']) && $course['reviews_count'] > 0)
+                        <p class="text-slate-300 text-sm leading-relaxed">{{ $course['rating'] }} dari 5 Bintang, berdasarkan {{ $course['reviews_count'] }} ulasan dari peserta yang telah menyelesaikan materi kursus ini.</p>
+                        @else
+                        <p class="text-slate-300 text-sm leading-relaxed">Belum ada ulasan untuk kursus ini.</p>
+                        @endif
                     </section>
                 </div>
 

@@ -16,7 +16,7 @@ class LmsData
                 'slug'             => 'dasar-neuroscience',
                 'title'            => 'Dasar Neuroscience',
                 'short_desc'       => 'Pelajari struktur neuron, sinapsis, dan cara otak memproses informasi dari level seluler hingga sistem.',
-                'long_desc'        => 'Modul ini merupakan fondasi dari seluruh kurikulum NeuroAcademy. Anda akan memulai dari konsep paling dasar tentang sistem saraf, memahami bagaimana neuron berkomunikasi melalui sinapsis, hingga mempelajari arsitektur otak manusia secara menyeluruh. Tidak diperlukan latar belakang medis; semua materi dirancang agar dapat dipahami oleh siapa saja.',
+                'long_desc'        => 'Modul ini merupakan fondasi dari seluruh kurikulum SynapEd. Anda akan memulai dari konsep paling dasar tentang sistem saraf, memahami bagaimana neuron berkomunikasi melalui sinapsis, hingga mempelajari arsitektur otak manusia secara menyeluruh. Tidak diperlukan latar belakang medis; semua materi dirancang agar dapat dipahami oleh siapa saja.',
                 'level'            => 'Pemula',
                 'level_color'      => 'green',
                 'category'         => 'neuroscience',
@@ -29,7 +29,7 @@ class LmsData
                 'gradient_from'    => '#2563EB',
                 'gradient_to'      => '#1D4ED8',
                 'badge_color'      => '#3B82F6',
-                'instructor'       => 'Tim Pengajar NeuroAcademy',
+                'instructor'       => 'Tim Pengajar SynapEd',
                 'instructor_bio'   => 'Spesialis Neurosains Kognitif dan Neuroplastisitas.',
                 'what_you_learn'   => [
                     'Memahami struktur neuron dan fungsinya',
@@ -103,7 +103,7 @@ class LmsData
                 'gradient_from'    => '#7C3AED',
                 'gradient_to'      => '#6D28D9',
                 'badge_color'      => '#8B5CF6',
-                'instructor'       => 'Tim Pengajar NeuroAcademy',
+                'instructor'       => 'Tim Pengajar SynapEd',
                 'instructor_bio'   => 'Spesialis Teknik Biomedik dan Biosignal Processing.',
                 'what_you_learn'   => [
                     'Memahami bagaimana otak menghasilkan sinyal listrik',
@@ -161,7 +161,7 @@ class LmsData
                 'slug'             => 'implementasi-eeg-muse',
                 'title'            => 'Implementasi EEG dengan Muse',
                 'short_desc'       => 'Panduan praktis menggunakan headband Muse untuk merekam dan memvisualisasikan data EEG secara real-time.',
-                'long_desc'        => 'Modul ini adalah modul paling praktis di kurikulum NeuroAcademy. Anda akan belajar cara menggunakan perangkat EEG consumer headband Muse, mulai dari setup perangkat, koneksi via Bluetooth, perekaman data real-time, hingga visualisasi sinyal otak langsung di layar komputer. Modul ini sangat direkomendasikan bagi yang memiliki akses ke perangkat Muse.',
+                'long_desc'        => 'Modul ini adalah modul paling praktis di kurikulum SynapEd. Anda akan belajar cara menggunakan perangkat EEG consumer headband Muse, mulai dari setup perangkat, koneksi via Bluetooth, perekaman data real-time, hingga visualisasi sinyal otak langsung di layar komputer. Modul ini sangat direkomendasikan bagi yang memiliki akses ke perangkat Muse.',
                 'level'            => 'Menengah',
                 'level_color'      => 'yellow',
                 'category'         => 'eeg',
@@ -174,7 +174,7 @@ class LmsData
                 'gradient_from'    => '#2563EB',
                 'gradient_to'      => '#1D4ED8',
                 'badge_color'      => '#06B6D4',
-                'instructor'       => 'Tim Pengajar NeuroAcademy',
+                'instructor'       => 'Tim Pengajar SynapEd',
                 'instructor_bio'   => 'R&D Engineer spesialis Brain-Computer Interface berbasis EEG.',
                 'what_you_learn'   => [
                     'Setup perangkat Muse headband dari awal',
@@ -256,7 +256,7 @@ class LmsData
                 'gradient_from'    => '#BE185D',
                 'gradient_to'      => '#9D174D',
                 'badge_color'      => '#EC4899',
-                'instructor'       => 'Tim Pengajar NeuroAcademy',
+                'instructor'       => 'Tim Pengajar SynapEd',
                 'instructor_bio'   => 'Spesialis Computational Neuroscience dan Machine Learning untuk biosignal.',
                 'what_you_learn'   => [
                     'Setup environment Python untuk analisis EEG (MNE, NumPy, SciPy)',

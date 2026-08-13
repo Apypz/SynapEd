@@ -130,9 +130,11 @@
                             <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[11px] font-bold text-blue-600 shadow-sm">
                                 📹 {{ count($c['lessons'] ?? []) }}x Lesson
                             </div>
+                            @if(!empty($c['reviews_count']) && $c['reviews_count'] > 0)
                             <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-extrabold">
-                                ⭐ 4.95
+                                ⭐ {{ $c['rating'] }}
                             </div>
+                            @endif
                         </div>
 
                         {{-- Card Content --}}
@@ -201,7 +203,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($displayCourses as $c)
+                @forelse($displayCourses as $c)
                 <div class="group rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col">
 
                     {{-- Course Thumbnail --}}
@@ -276,7 +278,7 @@
                                 <a href="{{ route('lessons.create', [$c->id, 'type' => 'quiz']) }}" class="px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-700 text-[11px] font-bold rounded-xl transition-colors">
                                     + Kuis
                                 </a>
-                                <button onclick="openEditCourseModal({{ $c->id }}, '{{ addslashes($c->title) }}', '{{ $c->category }}', '{{ $c->level }}', '{{ $c->price }}', '{{ addslashes($c->duration) }}', '{{ $c->icon }}', '{{ addslashes($c->thumbnail) }}', '{{ addslashes($c->short_desc) }}')" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold rounded-xl transition-colors">
+                                <button onclick="openEditCourseModal({{ $c->id }}, '{{ addslashes($c->title) }}', '{{ $c->category }}', '{{ $c->level }}', '{{ addslashes($c->duration) }}', '{{ $c->icon }}', '{{ addslashes($c->thumbnail) }}', '{{ addslashes($c->short_desc) }}')" class="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold rounded-xl transition-colors">
                                     ✏️ Edit
                                 </button>
                             </div>
@@ -292,15 +294,21 @@
 
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <div class="col-span-full flex flex-col items-center justify-center gap-3 py-16 rounded-3xl border border-dashed border-slate-200 bg-slate-50/50 text-center">
+                    <span class="text-3xl">📚</span>
+                    <p class="text-sm font-bold text-slate-600">Anda belum membuat kursus apa pun.</p>
+                    <p class="text-xs text-slate-400 max-w-xs">Klik "+ Buat Kursus Baru" di atas untuk mulai membuat kursus pertama Anda.</p>
+                </div>
+                @endforelse
             </div>
         </div>
         @endif
 
 
-        {{-- ── SECTION: KELOLA USER & PEMBAYARAN (ADMIN VIEW ONLY) ──────────────── --}}
+        {{-- ── SECTION: KELOLA USER (ADMIN VIEW ONLY) ──────────────── --}}
         @if($isAdmin)
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="max-w-2xl">
 
             {{-- User Management Card --}}
             <div class="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm space-y-4">
@@ -348,49 +356,6 @@
                 </div>
             </div>
 
-            {{-- Payment Approval Card --}}
-            <div class="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm space-y-4">
-                <div class="pb-3 border-b border-slate-100">
-                    <h3 class="text-base font-extrabold text-slate-900 font-heading">💳 Pengelolaan Pembayaran QRIS DANA</h3>
-                    <p class="text-xs text-slate-500">Konfirmasi pendaftaran kursus dari siswa</p>
-                </div>
-
-                <div class="max-h-80 overflow-y-auto space-y-2.5 pr-1">
-                    @forelse($payments as $pm)
-                    <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-2 text-xs">
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-slate-800">{{ $pm->user->name ?? 'User' }}</span>
-                            <span class="px-2 py-0.5 text-[9px] font-extrabold rounded-full uppercase
-                                @if($pm->status==='approved' || $pm->status==='Berhasil') bg-emerald-100 text-emerald-700
-                                @elseif($pm->status==='rejected' || $pm->status==='Gagal') bg-rose-100 text-rose-700
-                                @else bg-amber-100 text-amber-700 @endif">
-                                {{ $pm->status }}
-                            </span>
-                        </div>
-                        <p class="text-[11px] text-slate-600">Kursus: <strong>{{ $pm->course->title ?? '-' }}</strong></p>
-                        <div class="flex items-center justify-between pt-1">
-                            <span class="font-mono text-blue-600 font-bold">Rp {{ number_format($pm->amount, 0, ',', '.') }}</span>
-
-                            @if($pm->status==='pending' || $pm->status==='Pending')
-                            <div class="flex items-center gap-2">
-                                <form action="{{ route('admin.payments.approve', $pm->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]">✓ Setujui</button>
-                                </form>
-                                <form action="{{ route('admin.payments.reject', $pm->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="px-2 py-1 bg-rose-600 text-white font-bold rounded-lg text-[10px]">✕ Tolak</button>
-                                </form>
-                            </div>
-                            @endif
-                        </div>
-                    </div>
-                    @empty
-                    <p class="text-xs text-slate-400 text-center py-6">Belum ada riwayat pembayaran.</p>
-                    @endforelse
-                </div>
-            </div>
-
         </div>
         @endif
 
@@ -427,20 +392,24 @@
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">Harga (Rp, 0 = Gratis) *</label>
-                        <input type="number" name="price" value="0" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">Estimasi Durasi *</label>
-                        <input type="text" name="duration" value="4 Minggu" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
-                    </div>
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700">Estimasi Durasi *</label>
+                    <input type="text" name="duration" value="4 Minggu" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">Thumbnail (Unggah Berkas Gambar ATAU Masukkan URL)</label>
-                    <input type="file" name="thumbnail_file" accept="image/*" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 mb-1 text-slate-600">
-                    <input type="text" name="thumbnail" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
+                    <div class="flex items-center gap-3">
+                        <div class="w-20 h-14 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <img id="createThumbPreview" src="" alt="Preview thumbnail" class="hidden w-full h-full object-cover">
+                            <span id="createThumbPreviewPlaceholder" class="text-slate-300 text-2xl">🖼️</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <input type="file" name="thumbnail_file" accept="image/*" onchange="previewThumbnail(this, 'createThumbPreview', 'createThumbPreviewPlaceholder', 'createThumbSizeError')" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-1.5 text-slate-600">
+                            <p class="text-[10px] text-slate-400 mt-1">Format JPG/PNG/WEBP · Maks 2MB · Disarankan rasio 16:9 (mis. 800×450px)</p>
+                            <p id="createThumbSizeError" class="hidden text-[10px] text-rose-600 font-semibold mt-1"></p>
+                        </div>
+                    </div>
+                    <input type="text" name="thumbnail" placeholder="atau tempel URL gambar: https://..." class="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">Deskripsi Singkat *</label>
@@ -483,20 +452,24 @@
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">Harga (Rp) *</label>
-                        <input type="number" name="price" id="editCoursePrice" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
-                    </div>
-                    <div>
-                        <label class="block font-bold mb-1 text-slate-700">Estimasi Durasi *</label>
-                        <input type="text" name="duration" id="editCourseDuration" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
-                    </div>
+                <div>
+                    <label class="block font-bold mb-1 text-slate-700">Estimasi Durasi *</label>
+                    <input type="text" name="duration" id="editCourseDuration" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">Thumbnail Baru (Upload Berkas ATAU URL)</label>
-                    <input type="file" name="thumbnail_file" accept="image/*" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 mb-1 text-slate-600">
-                    <input type="text" name="thumbnail" id="editCourseThumbnail" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
+                    <div class="flex items-center gap-3">
+                        <div class="w-20 h-14 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <img id="editThumbPreview" src="" alt="Preview thumbnail" class="hidden w-full h-full object-cover">
+                            <span id="editThumbPreviewPlaceholder" class="text-slate-300 text-2xl">🖼️</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <input type="file" name="thumbnail_file" accept="image/*" onchange="previewThumbnail(this, 'editThumbPreview', 'editThumbPreviewPlaceholder', 'editThumbSizeError')" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-1.5 text-slate-600">
+                            <p class="text-[10px] text-slate-400 mt-1">Format JPG/PNG/WEBP · Maks 2MB · Disarankan rasio 16:9 (mis. 800×450px)</p>
+                            <p id="editThumbSizeError" class="hidden text-[10px] text-rose-600 font-semibold mt-1"></p>
+                        </div>
+                    </div>
+                    <input type="text" name="thumbnail" id="editCourseThumbnail" placeholder="atau tempel URL gambar: https://..." class="w-full mt-2 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-blue-600">
                 </div>
                 <div>
                     <label class="block font-bold mb-1 text-slate-700">Deskripsi Singkat *</label>
@@ -589,17 +562,70 @@
     @endif
 
     <script>
-    function openEditCourseModal(courseId, title, category, level, price, duration, icon, thumbnail, shortDesc) {
+    function openEditCourseModal(courseId, title, category, level, duration, icon, thumbnail, shortDesc) {
         document.getElementById('editCourseTitle').value = title;
         document.getElementById('editCourseCategory').value = category;
         document.getElementById('editCourseLevel').value = level;
-        document.getElementById('editCoursePrice').value = price;
         document.getElementById('editCourseDuration').value = duration;
         document.getElementById('editCourseIcon').value = icon;
         document.getElementById('editCourseThumbnail').value = thumbnail || '';
         document.getElementById('editCourseShortDesc').value = shortDesc;
         document.getElementById('formEditCourse').action = '/courses/' + courseId;
+
+        const preview = document.getElementById('editThumbPreview');
+        const placeholder = document.getElementById('editThumbPreviewPlaceholder');
+        if (thumbnail) {
+            preview.src = thumbnail;
+            preview.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+        } else {
+            preview.src = '';
+            preview.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+        }
+
         document.getElementById('modalEditCourse').classList.remove('hidden');
+    }
+
+    // Live preview + client-side size check for a thumbnail <input type="file">
+    // before the form is submitted (max 2MB mirrors the server-side validation
+    // rule in CourseController — kept in sync manually, there is no shared config).
+    const THUMBNAIL_MAX_BYTES = 2 * 1024 * 1024;
+
+    function previewThumbnail(input, imgId, placeholderId, errorId) {
+        const img = document.getElementById(imgId);
+        const placeholder = document.getElementById(placeholderId);
+        const errorEl = errorId ? document.getElementById(errorId) : null;
+        if (errorEl) {
+            errorEl.classList.add('hidden');
+            errorEl.textContent = '';
+        }
+
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+
+        if (file.size > THUMBNAIL_MAX_BYTES) {
+            input.value = '';
+            img.src = '';
+            img.classList.add('hidden');
+            if (placeholder) placeholder.classList.remove('hidden');
+            const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+            if (errorEl) {
+                errorEl.textContent = `File terlalu besar (${sizeMb}MB). Ukuran maksimal adalah 2MB.`;
+                errorEl.classList.remove('hidden');
+            } else {
+                alert(`File terlalu besar (${sizeMb}MB). Ukuran maksimal adalah 2MB.`);
+            }
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            img.src = e.target.result;
+            img.classList.remove('hidden');
+            if (placeholder) placeholder.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
     }
 
     function openEditUserModal(userId, name, email, role) {

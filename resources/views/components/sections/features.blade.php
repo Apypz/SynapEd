@@ -6,7 +6,7 @@
             </h2>
             <span id="typing-target" class="text-4xl md:text-5xl font-bold text-blue-600 border-r-4 border-blue-600 pr-1 tracking-tight leading-tight"></span>
             <p class="max-w-2xl mx-auto text-lg text-slate-600 leading-relaxed">
-                NeuroAcademy menghadirkan pembelajaran neuroscience dan EEG secara sistematis. Materi dirancang agar mudah dipahami oleh pelajar dan pemula tanpa latar belakang medis.
+                SynapEd menghadirkan pembelajaran neuroscience dan EEG secara sistematis. Materi dirancang agar mudah dipahami oleh pelajar dan pemula tanpa latar belakang medis.
             </p>
         </div>
 

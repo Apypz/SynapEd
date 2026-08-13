@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\LmsData;
+use App\Models\Course;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $allCourses = LmsData::courses();
-
-        // Landing page uses first 4 courses (all of them)
-        $courses = $allCourses;
+        // DB-backed (not the static LmsData array) so courses created/edited via
+        // the dashboard actually show up here, instead of a frozen seed snapshot.
+        $courses = Course::where('is_published', true)
+            ->withCount('lessons')
+            ->latest()
+            ->take(4)
+            ->get();
 
         $courseCategories = [
             ['slug' => 'semua',        'label' => 'Semua Materi'],
@@ -40,7 +43,7 @@ class HomeController extends Controller
 
         $testimonials = [
             [
-                'name'     => 'Anak Senku',
+                'name'     => 'Aditya S.',
                 'position' => 'Mahasiswa Teknik Biomedik',
                 'content'  => 'Materi neuroscience di sini disajikan dengan sangat sistematis. Saya yang dari teknik pun bisa memahami cara kerja otak dan sinyal EEG dari nol.',
                 'rating'   => 5,
@@ -50,7 +53,7 @@ class HomeController extends Controller
                 'work_image' => 'https://rsa.ugm.ac.id/wp-content/uploads/sites/60/eeg_40_channel_rsa_ugm_2.jpg',
             ],
             [
-                'name'     => 'Pengguna Aktif',
+                'name'     => 'Putri A.',
                 'position' => 'Tenaga Pendidik',
                 'content'  => 'Kontennya informatif dan terstruktur. Sangat membantu saya dalam mempersiapkan materi pembelajaran neurosains untuk siswa SMA.',
                 'rating'   => 5,
@@ -60,9 +63,9 @@ class HomeController extends Controller
                 'work_image' => 'https://rsa.ugm.ac.id/wp-content/uploads/sites/60/eeg_40_channel_rsa_ugm_3.jpg',
             ],
             [
-                'name'     => 'King Olga 67',
-                'position' => 'Ilmuan Internasional',
-                'content'  => 'Modulnya sangat cocok untuk saya yang sudah memiliki latar belakang neuroscience. ',
+                'name'     => 'Kevin O.',
+                'position' => 'Peneliti Independen',
+                'content'  => 'Modulnya sangat cocok untuk saya yang sudah memiliki latar belakang neuroscience.',
                 'rating'   => 5,
                 'initials' => 'KO',
                 'color'    => '#0884B2',
@@ -70,8 +73,8 @@ class HomeController extends Controller
                 'work_image' => 'https://imotions.com/wp-content/uploads/2022/10/EEG-Visuals.jpg',
             ],
             [
-                'name'     => 'Reza N',
-                'position' => 'Penjelajah',
+                'name'     => 'Reza N.',
+                'position' => 'Pelajar SMA',
                 'content'  => 'Bahasa yang digunakan pada modul sangat mudah dipahami, bahkan untuk saya yang awam sekalipun.',
                 'rating'   => 5,
                 'initials' => 'RN',
@@ -80,8 +83,8 @@ class HomeController extends Controller
                 'work_image' => 'https://glomeda.co.id/wp-content/uploads/2021/08/Pemeriksaan-EEG-800x475.jpg',
             ],
             [
-                'name'     => 'Ardik A',
-                'position' => 'Mandor Sawit',
+                'name'     => 'Ardik A.',
+                'position' => 'Profesional Non-Medis',
                 'content'  => 'Modulnya sangat mudah dipahami, Saya merasa lebih percaya diri untuk mulai belajar tentang neuroscience dan EEG.',
                 'rating'   => 5,
                 'initials' => 'AA',
@@ -90,7 +93,7 @@ class HomeController extends Controller
                 'work_image' => 'https://portal.riau24.com/news/20220223/riau24_1645581863.png',
             ],
             [
-                'name'     => 'Alumni Kursus',
+                'name'     => 'Alya K.',
                 'position' => 'Peneliti & Praktisi',
                 'content'  => 'Modul analisis data EEG sangat praktis. Panduan Python-nya langsung bisa diterapkan pada dataset riset saya. Sangat direkomendasikan.',
                 'rating'   => 5,
@@ -103,12 +106,12 @@ class HomeController extends Controller
 
         $faqs = [
             [
-                'question' => 'Siapa saja yang dapat menggunakan platform NeuroAcademy?',
-                'answer'   => 'NeuroAcademy terbuka untuk semua kalangan — pelajar SMA, SMK, mahasiswa, hingga profesional yang ingin memahami neuroscience dan teknologi EEG. Tidak diperlukan latar belakang medis atau teknik.',
+                'question' => 'Siapa saja yang dapat menggunakan platform SynapEd?',
+                'answer'   => 'SynapEd terbuka untuk semua kalangan — pelajar SMA, SMK, mahasiswa, hingga profesional yang ingin memahami neuroscience dan teknologi EEG. Tidak diperlukan latar belakang medis atau teknik.',
             ],
             [
                 'question' => 'Apakah saya perlu latar belakang medis atau teknik untuk memulai?',
-                'answer'   => 'Tidak sama sekali. Kurikulum NeuroAcademy dirancang mulai dari level pemula yang tidak mengasumsikan pengetahuan medis atau teknik sebelumnya. Semua orang bisa belajar.',
+                'answer'   => 'Tidak sama sekali. Kurikulum SynapEd dirancang mulai dari level pemula yang tidak mengasumsikan pengetahuan medis atau teknik sebelumnya. Semua orang bisa belajar.',
             ],
             [
                 'question' => 'Apakah saya perlu memiliki perangkat EEG untuk mengikuti kursus?',
@@ -120,7 +123,7 @@ class HomeController extends Controller
             ],
             [
                 'question' => 'Apakah ada sertifikat setelah menyelesaikan kursus?',
-                'answer'   => 'Ya, peserta yang menyelesaikan seluruh modul dan lulus evaluasi akan mendapatkan sertifikat digital dari NeuroAcademy yang dapat dibagikan di LinkedIn atau portofolio Anda.',
+                'answer'   => 'Ya, peserta yang menyelesaikan seluruh modul dan lulus evaluasi akan mendapatkan sertifikat digital dari SynapEd yang dapat dibagikan di LinkedIn atau portofolio Anda.',
             ],
         ];
 

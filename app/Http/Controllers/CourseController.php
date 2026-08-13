@@ -12,7 +12,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::where('is_published', true)->get();
+        $courses = Course::where('is_published', true)->withCount('lessons')->get();
         $levelMap = LmsData::levelColorMap();
         $iconPaths = LmsData::iconPaths();
 
@@ -144,10 +144,6 @@ class CourseController extends Controller
         $course['gradient'] = 'linear-gradient(135deg, #2563EB, #1D4ED8)';
         $course['gradient_from'] = '#2563EB';
         $course['gradient_to'] = '#1D4ED8';
-        $course['review_placeholder'] = [
-            'headline' => '4.8 dari 5 Bintang.',
-            'body' => 'Berdasarkan ulasan dari para peserta yang telah menyelesaikan materi kursus ini.',
-        ];
         $course['included_items'] = [
             ['label' => ($course['stats']['duration_label'] ?? '6 Jam') . ' Akses Materi', 'detail' => 'Akses selamanya ke seluruh materi video & bacaan'],
             ['label' => ($course['stats']['lesson_count'] ?? 10) . ' Pelajaran Terstruktur', 'detail' => 'Kurikulum dari tingkat dasar hingga lanjutan'],
@@ -179,10 +175,10 @@ class CourseController extends Controller
             'category' => 'required|string',
             'level' => 'required|string',
             'level_color' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
             'duration' => 'required|string',
             'icon' => 'nullable|string',
             'thumbnail' => 'nullable|string',
+            'thumbnail_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'short_desc' => 'required|string',
             'long_desc' => 'nullable|string',
             'instructor' => 'nullable|string',
@@ -214,7 +210,7 @@ class CourseController extends Controller
             'category' => $validated['category'],
             'level' => $validated['level'],
             'level_color' => $validated['level_color'] ?? 'green',
-            'price' => $validated['price'],
+            'price' => 0,
             'duration' => $validated['duration'],
             'icon' => $validated['icon'] ?? 'brain',
             'thumbnail' => $thumbnailPath,
@@ -245,19 +241,16 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
-        $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
-        }
+        $this->authorize('update', $course);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string',
             'level' => 'required|string',
-            'price' => 'required|numeric|min:0',
             'duration' => 'required|string',
             'icon' => 'nullable|string',
             'thumbnail' => 'nullable|string',
+            'thumbnail_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'short_desc' => 'required|string',
             'long_desc' => 'nullable|string',
         ]);
@@ -274,10 +267,7 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        $user = auth()->user();
-        if (! $user->isEducator() && ! $user->isAdmin()) {
-            abort(403, 'Akses terbatas');
-        }
+        $this->authorize('delete', $course);
 
         $title = $course->title;
         $course->delete();

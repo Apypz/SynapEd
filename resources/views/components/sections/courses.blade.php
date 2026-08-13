@@ -79,6 +79,7 @@
                     </div>
 
                     <div class="flex items-center justify-between mb-5 pb-5 border-b border-slate-100">
+                        @if(!empty($course['reviews_count']) && $course['reviews_count'] > 0)
                         <div class="flex items-center gap-1">
                             <span class="text-slate-800 font-poppins font-bold text-sm">{{ $course['rating'] }}</span>
                             <div class="flex gap-0.5">
@@ -88,8 +89,11 @@
                                 </svg>
                                 @endfor
                             </div>
-                            <span class="text-slate-400 font-poppins text-xs ml-1">({{ $course['reviews'] }})</span>
+                            <span class="text-slate-400 font-poppins text-xs ml-1">({{ $course['reviews_count'] }})</span>
                         </div>
+                        @else
+                        <span class="text-slate-400 font-poppins text-xs">Belum ada ulasan</span>
+                        @endif
                         <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold uppercase tracking-wider">
                             {{ $course['level'] }}
                         </span>
@@ -104,12 +108,12 @@
                         @auth
                             <a href="{{ route('learn', $course['slug']) }}"
                                class="inline-flex items-center justify-center py-2.5 rounded-lg text-xs font-poppins font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200">
-                                {{ !empty($course['is_enrolled']) ? 'Mulai' : 'Beli' }}
+                                Mulai Belajar
                             </a>
                         @else
                             <a href="{{ route('login') }}" style="color:#ffffff !important;"
                                class="inline-flex items-center justify-center py-2.5 rounded-lg text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm shadow-blue-200">
-                                {{ !empty($course['has_free_preview']) ? 'Preview' : 'Beli' }}
+                                Daftar Gratis
                             </a>
                         @endauth
                     </div>

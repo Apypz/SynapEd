@@ -309,24 +309,13 @@
                 {{-- GOOGLE FORM STYLE QUIZ EXPERIENCE FOR STUDENT --}}
                 @if($lesson['type'] === 'quiz')
                 @php
-                    $qList = !empty($lesson['quiz_data']) ? $lesson['quiz_data'] : [
-                        [
-                            'id' => 1,
-                            'question' => 'Apa komponen utama dalam pengukuran gelombang elektrik otak?',
-                            'type' => 'pilihan_ganda',
-                            'points' => 50,
-                            'options' => ['Elektroda EEG dan Penguat Sinyal', 'Sensor Suhu Tubuh', 'Kamera Optik', 'Perangkat Magnetik Statis'],
-                            'correct_answer' => 0
-                        ],
-                        [
-                            'id' => 2,
-                            'question' => 'Jelaskan perbedaan mendasar gelombang Alpha dan Beta!',
-                            'type' => 'uraian',
-                            'points' => 50,
-                            'options' => ['', '', '', ''],
-                            'correct_answer' => 0
-                        ]
-                    ];
+                    // $lesson['quiz_data'] is always non-empty for quiz lessons by this point
+                    // (LessonController::show() fills in a default sample quiz otherwise), so
+                    // the options/questions rendered here are guaranteed to match what the
+                    // server will grade against on submit. correct_answer is intentionally
+                    // still present in this PHP array (needed nowhere below except server-side
+                    // grading) but is never echoed into the page or the client-side <script>.
+                    $qList = $lesson['quiz_data'] ?? [];
                 @endphp
                 <div class="mb-8 bg-slate-900/90 border border-amber-500/30 rounded-2xl p-6 shadow-2xl space-y-6">
                     <div class="flex items-center justify-between pb-4 border-b border-white/10">
@@ -501,46 +490,64 @@ function autoMarkComplete() {
     .catch(err => console.error('Error auto marking complete:', err));
 }
 
-// EVALUATE STUDENT QUIZ ANSWERS WITH REAL SCORING
+// SUBMIT STUDENT QUIZ ANSWERS TO SERVER FOR REAL, TAMPER-PROOF SCORING
+// (the answer key never reaches the browser — grading happens in
+// LessonController::submitQuiz() against the DB-stored quiz_data)
+const totalQuizQuestions = {{ count($qList ?? []) }};
+
 function evaluateStudentQuiz(e) {
     e.preventDefault();
-    const quizData = @json($qList ?? []);
-    let earnedPoints = 0;
-    let totalPoints = 0;
+    const form = document.getElementById('studentQuizForm');
+    const answers = {};
 
-    quizData.forEach((q, qIdx) => {
-        const pts = parseInt(q.points || 50);
-        totalPoints += pts;
-
-        if ((q.type || 'pilihan_ganda') === 'pilihan_ganda') {
-            const selected = document.querySelector(`input[name="student_q_${qIdx}"]:checked`);
-            const correctOpt = parseInt(q.correct_answer || 0);
-
-            if (selected && parseInt(selected.value) === correctOpt) {
-                earnedPoints += pts;
-                const lbl = document.getElementById(`opt-lbl-${qIdx}-${selected.value}`);
-                if (lbl) {
-                    lbl.classList.remove('bg-slate-900/50');
-                    lbl.classList.add('bg-emerald-500/20', 'border-emerald-500');
-                }
-            }
-        } else {
-            // Essay question gets default rubric score upon response
-            const essayInput = document.querySelector(`textarea[name="student_q_${qIdx}_essay"]`);
-            if (essayInput && essayInput.value.trim().length > 5) {
-                earnedPoints += pts;
-            }
+    for (let i = 0; i < totalQuizQuestions; i++) {
+        const selected = form.querySelector(`input[name="student_q_${i}"]:checked`);
+        if (selected) {
+            answers[i] = parseInt(selected.value);
+            continue;
         }
-    });
-
-    const finalScore = totalPoints > 0 ? Math.round((earnedPoints / totalPoints) * 100) : 100;
-    const scoreBadge = document.getElementById('scoreBadge');
-    if (scoreBadge) {
-        scoreBadge.innerText = `Skor Kuis Anda: ${finalScore}/100`;
-        scoreBadge.classList.remove('hidden');
+        const essayInput = form.querySelector(`textarea[name="student_q_${i}_essay"]`);
+        if (essayInput) {
+            answers[i] = essayInput.value;
+        }
     }
 
-    autoMarkComplete();
+    const courseSlug = '{{ $course["slug"] }}';
+    const lessonSlug = '{{ $lesson["slug"] }}';
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('/courses/' + courseSlug + '/lessons/' + lessonSlug + '/quiz/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({ answers })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) return;
+
+        const scoreBadge = document.getElementById('scoreBadge');
+        if (scoreBadge) {
+            scoreBadge.innerText = `Skor Kuis Anda: ${data.score}/100`;
+            scoreBadge.classList.remove('hidden');
+        }
+
+        Object.entries(data.results || {}).forEach(([qIdx, isCorrect]) => {
+            const selected = form.querySelector(`input[name="student_q_${qIdx}"]:checked`);
+            if (!selected) return;
+            const lbl = document.getElementById(`opt-lbl-${qIdx}-${selected.value}`);
+            if (!lbl) return;
+            lbl.classList.remove('bg-slate-900/50');
+            lbl.classList.add(isCorrect ? 'bg-emerald-500/20' : 'bg-rose-500/20', isCorrect ? 'border-emerald-500' : 'border-rose-500');
+        });
+
+        autoMarkComplete();
+    })
+    .catch(err => console.error('Error submitting quiz:', err));
 }
 
 // Simulated Video Player Logic

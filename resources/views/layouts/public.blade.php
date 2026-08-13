@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="NeuroAcademy – Platform pembelajaran Neuroscience dan EEG secara terstruktur dan aplikatif." />
+    <meta name="description" content="SynapEd – Platform pembelajaran Neuroscience dan EEG secara terstruktur dan aplikatif." />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'NeuroAcademy – Belajar Neuroscience & EEG')</title>
+    <title>@yield('title', 'SynapEd – Belajar Neuroscience & EEG')</title>
 
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
 

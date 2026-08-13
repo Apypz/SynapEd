@@ -3,9 +3,9 @@
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LessonController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +15,10 @@ Route::get('/courses',         [CourseController::class, 'index'])->name('course
 Route::get('/courses/{slug}',  [CourseController::class, 'show'])->name('courses.show');
 
 // ── Authenticated routes ──────────────────────────────────────────────────────
-Route::middleware(['auth', 'verified'])->group(function () {
+// Note: 'verified' middleware intentionally omitted — User doesn't implement
+// MustVerifyEmail and MAIL_MAILER=log, so verification never actually fires.
+// Re-add once real mail delivery + MustVerifyEmail are both wired up together.
+Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard',  [DashboardController::class, 'index'])->name('dashboard');
 
@@ -23,6 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/courses/{course}/learn',           [LessonController::class, 'show'])->name('learn');
     Route::get('/courses/{course}/learn/{lesson}',  [LessonController::class, 'show'])->name('learn.lesson');
     Route::post('/courses/{course}/lessons/{lesson}/complete', [LessonController::class, 'markComplete'])->name('lessons.complete');
+    Route::post('/courses/{course}/lessons/{lesson}/quiz/submit', [LessonController::class, 'submitQuiz'])->name('lessons.quiz.submit');
 
     // Course CRUD (Educator & Admin)
     Route::post('/courses',               [CourseController::class, 'store'])->name('courses.store');
@@ -36,9 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/lessons/{lesson}',                 [LessonController::class, 'update'])->name('lessons.update');
     Route::delete('/lessons/{lesson}',              [LessonController::class, 'destroy'])->name('lessons.destroy');
 
-    // Payment & Enrollment (Student & Admin)
-    Route::post('/courses/{course}/enroll', [PaymentController::class, 'enroll'])->name('courses.enroll');
-    Route::patch('/payments/{payment}/status', [PaymentController::class, 'updateStatus'])->name('payments.update-status');
+    // Enrollment (all courses are free — no payment gate)
+    Route::post('/courses/{course}/enroll', [EnrollmentController::class, 'enroll'])->name('courses.enroll');
 
     // Admin User Management (Admin only)
     Route::get('/admin/users',        [AdminUserController::class, 'index'])->name('admin.users.index');

@@ -15,7 +15,7 @@
         </h2>
 
         <p class="text-lg text-black leading-relaxed mb-16 max-w-3xl mx-auto">
-            NeuroAcademy menghadirkan pembelajaran neuroscience dan EEG secara sistematis mulai dari konsep dasar neuron hingga analisis sinyal otak. Materi dirancang agar mudah dipahami oleh pelajar dan pemula tanpa latar belakang medis.
+            SynapEd menghadirkan pembelajaran neuroscience dan EEG secara sistematis mulai dari konsep dasar neuron hingga analisis sinyal otak. Materi dirancang agar mudah dipahami oleh pelajar dan pemula tanpa latar belakang medis.
         </p>
 
         <div class="grid md:grid-cols-3 gap-6 font-poppins">

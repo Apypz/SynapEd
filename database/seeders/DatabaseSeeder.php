@@ -6,7 +6,6 @@ use App\Helpers\LmsData;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Lesson;
-use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -58,7 +57,7 @@ class DatabaseSeeder extends Seeder
                     'category'       => $cData['category'] ?? 'neuroscience',
                     'level'          => $cData['level'],
                     'level_color'    => $cData['level_color'] ?? 'green',
-                    'price'          => $cData['price'] ?? 299000,
+                    'price'          => 0,
                     'duration'       => $cData['duration'],
                     'icon'           => $cData['icon'],
                     'rating'         => $cData['rating'] ?? 4.8,
@@ -97,7 +96,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // 3. Seed Initial Enrollment & Payment for Student (Starting at 0% Progress)
+        // 3. Seed Initial Enrollment for Student (Starting at 0% Progress) — all courses are free
         $firstCourse = Course::where('slug', 'dasar-neuroscience')->first();
         if ($firstCourse && $student) {
             Enrollment::updateOrCreate(
@@ -110,18 +109,6 @@ class DatabaseSeeder extends Seeder
                     'status'            => 'active',
                     'last_lesson_slug'  => 'apa-itu-neuroscience',
                     'completed_lessons' => [],
-                ]
-            );
-
-            Payment::updateOrCreate(
-                ['trx_number' => 'TRX-9941'],
-                [
-                    'user_id'        => $student->id,
-                    'course_id'      => $firstCourse->id,
-                    'amount'         => $firstCourse->price ?: 500000,
-                    'payment_method' => 'QRIS DANA',
-                    'status'         => 'Berhasil',
-                    'notes'          => 'Pembayaran terverifikasi otomatis.',
                 ]
             );
         }
@@ -138,18 +125,6 @@ class DatabaseSeeder extends Seeder
                     'status'            => 'active',
                     'last_lesson_slug'  => 'potensial-listrik-otak',
                     'completed_lessons' => [],
-                ]
-            );
-
-            Payment::updateOrCreate(
-                ['trx_number' => 'TRX-9940'],
-                [
-                    'user_id'        => $student->id,
-                    'course_id'      => $secondCourse->id,
-                    'amount'         => $secondCourse->price ?: 450000,
-                    'payment_method' => 'Bank Transfer',
-                    'status'         => 'Berhasil',
-                    'notes'          => 'Pembayaran terverifikasi otomatis.',
                 ]
             );
         }
